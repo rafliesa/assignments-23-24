@@ -8,8 +8,78 @@ public class OrderGenerator {
 
     public static void main(String[] args) {
         // TODO: Implementasikan program sesuai ketentuan yang diberikanP
-        System.out.println(generateOrderID("Yoshi", "22/02/2024", "08123456789"));
-        System.out.println(generateBill("HOLY1802202453C3", "S"));
+        // System.out.println(generateOrderID("Yoshi", "22/02/2024", "08123456789"));
+        // System.out.println(generateBill("HOLY1802202453C3", "S"));
+        String namaRestoran, orderID, tanggalPemesanan, noTelpon, lokasi;
+        int pilihMenu; 
+        showMenu();
+
+        for (;;) {
+            System.out.println("--------------------------------------------");
+            System.out.print("Pilihan menu: ");
+            pilihMenu = input.nextInt(); input.nextLine();
+
+            while (pilihMenu == 1) {
+
+                System.out.print("Nama Restoran: ");
+                namaRestoran = input.nextLine().strip();
+                if (namaRestoran.length() < 4) {
+                    System.out.println("Harap masukan nama restoran minimal 4 huruf!\n");
+                    continue;
+                }
+
+                System.out.print("Tanggal Pemesanan: ");
+                tanggalPemesanan = input.nextLine();
+                if (!tanggalPemesanan.matches("[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]")) {
+                    System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
+                    continue;
+                }
+
+                System.out.print("No. Telpon: ");
+                noTelpon = input.nextLine();
+                if (!noTelpon.matches("^[0-9]+$")) {
+                    System.out.println("Harap masukan nomor telepon dalam bilangan bulat positif.\n");
+                    continue;
+                }
+
+                orderID = generateOrderID(namaRestoran, tanggalPemesanan, noTelpon);
+                System.out.printf("Order ID %s diterima!\n", orderID);
+                break;
+            }
+            
+            while (pilihMenu == 2) {
+                System.out.print("Order ID: ");
+                orderID = input.nextLine();
+                if (orderID.length() < 16) {
+                    System.out.println("Order ID minimal 16 karakter\n");
+                    continue;
+                } else if (!orderID.substring(orderID.length()-2).equals(getChecksum(orderID.substring(0,14)))) {
+                    System.out.println("Silahkan masukkan Order ID yang valid!\n");
+                    continue;
+                }
+
+                System.out.print("Lokasi Pengiriman: ");
+                lokasi = input.nextLine();
+                while (!verifikasiLokasi(lokasi)) { 
+                    System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!\n");
+                    System.out.print("Lokasi Pengiriman: ");
+                    lokasi = input.nextLine();
+                }
+
+                System.out.println();
+                System.out.println(generateBill(orderID, lokasi));
+                
+                break;
+            }
+
+            if (pilihMenu == 3) {
+                System.out.println("Terima kasih telah menggunakan DepeFood!");
+            }
+            
+
+        }
+
+
     }
     /* 
     Anda boleh membuat method baru sesuai kebutuhan Anda
@@ -28,6 +98,13 @@ public class OrderGenerator {
         System.out.println("||          |_|                          ||");
         System.out.println(">>=======================================<<");
         System.out.println();
+        System.out.println("Pilih menu:");
+        System.err.println("1. Generate Order ID");
+        System.out.println("2. Generate Bill");
+        System.out.println("3. Keluar");
+    }
+
+    public static void showChoicesOnly() {
         System.out.println("Pilih menu:");
         System.err.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
@@ -71,10 +148,10 @@ public class OrderGenerator {
         String yyyy = OrderID.substring(8, 12);
 
         String tanggalPemesanan = String.format("%s/%s/%s", dd,mm,yyyy);
-        String biaya = ongkosKirim(lokasi);
+        String biaya = ongkosKirim(lokasi.toUpperCase());
 
         return "Bill:\n" + "Order ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalPemesanan
-                + "\nLokasi Pengiriman: "  + lokasi + "\nBiaya Ongkos Kirim: " + biaya;
+                + "\nLokasi Pengiriman: "  + lokasi.toUpperCase() + "\nBiaya Ongkos Kirim: " + biaya + "\n";
     }
 
     public static String parseNoTelp(String noTelpon) {
@@ -129,16 +206,26 @@ public class OrderGenerator {
     public static String ongkosKirim (String lokasi) {
         String biaya = "-";
         if (lokasi.equals("P")) {
-            biaya = "Rp10.000";
+            biaya = "Rp 10.000";
         } else if (lokasi.equals("U")) {
-            biaya = "Rp20.000";
+            biaya = "Rp 20.000";
         } else if (lokasi.equals("T")) {
-            biaya = "Rp35.000";
+            biaya = "Rp 35.000";
         } else if (lokasi.equals("S")) {
-            biaya = "Rp40.000";
+            biaya = "Rp 40.000";
         } else if (lokasi.equals("B")) {
-            biaya = "Rp60.000";
+            biaya = "Rp 60.000";
         } 
         return biaya;
+    }
+
+    public static boolean verifikasiLokasi (String lokasi) {
+        String[] listLokasi = {"P","U","T","S","B"};
+        for (String lok : listLokasi) {
+            if (lok.equals(lokasi)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
