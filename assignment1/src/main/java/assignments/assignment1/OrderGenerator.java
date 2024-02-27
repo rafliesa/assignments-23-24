@@ -35,8 +35,15 @@ public class OrderGenerator {
      * @return String Order ID dengan format sesuai pada dokumen soal
      */
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
-        // TODO:Lengkapi method ini sehingga dapat mengenerate Order ID sesuai ketentuan
-        return "TP";
+        String namaRestoranFirstFour = namaRestoran.replaceAll("//s", "").
+                                       substring(0,4).toUpperCase();
+        String tanggalOrderCut = tanggalOrder.replaceAll("/", "");
+        String noTelponParsed = parseNoTelp(noTelepon);
+        String checksum = getChecksum(namaRestoranFirstFour + tanggalOrderCut
+                                      + noTelponParsed);
+        String result = namaRestoranFirstFour + tanggalOrderCut
+                        + noTelponParsed + checksum;
+        return result;
     }
 
 
@@ -57,8 +64,56 @@ public class OrderGenerator {
     }
 
     public static void main(String[] args) {
-        // TODO: Implementasikan program sesuai ketentuan yang diberikan
+        // TODO: Implementasikan program sesuai ketentuan yang diberikanP
+        System.out.println(generateOrderID("Yoshi", "22/02/2024", "08123456789"));
     }
 
+    public static String parseNoTelp(String noTelpon) {
+        int noTelpSum = 0;
+        for (int i = 0; i < noTelpon.length(); i++) {
+            noTelpSum += Integer.parseInt(String.valueOf(noTelpon.charAt(i)));
+        }
+        if (noTelpSum % 100 >= 10) {
+            return String.format("%d", noTelpSum % 100);
+        } else {
+            return String.format("0%d", noTelpSum % 100);
+        }
+    }
     
+    public static String getChecksum(String str) {
+        int oddSum = 0;
+        int evenSum = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            if (i % 2 == 0) {
+                evenSum += toCode39(str.charAt(i));
+            } else {
+                oddSum += toCode39(str.charAt(i));
+            }
+        }
+        
+        int oddMod = oddSum % 36;
+        int evenMod = evenSum % 36;
+
+        String oddAscii = code39ToAscii(oddMod);
+        String evenAscii = code39ToAscii(evenMod);
+        return String.format("%s%s", evenAscii, oddAscii);
+    }
+
+    public static int toCode39(char x) {
+        if ('0' <= x && x <= '9') {
+            return (int) x - '0';
+        } else if ('A' <= x && x <= 'Z') {
+            return (int) x - 'A' + 10;
+        } else {
+            return -1;
+        }
+    }
+
+    public static String code39ToAscii(int code39) {
+        if (code39 <= 9) {
+            return String.format("%d", code39);
+        } 
+        return String.format("%c", (char) (code39 - 10 + (int) 'A'));
+    }
 }
