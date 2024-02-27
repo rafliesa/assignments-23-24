@@ -1,10 +1,16 @@
 package assignments.assignment1;
 
 import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
 
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
 
+    public static void main(String[] args) {
+        // TODO: Implementasikan program sesuai ketentuan yang diberikanP
+        System.out.println(generateOrderID("Yoshi", "22/02/2024", "08123456789"));
+        System.out.println(generateBill("HOLY1802202453C3", "S"));
+    }
     /* 
     Anda boleh membuat method baru sesuai kebutuhan Anda
     Namun, Anda tidak boleh menghapus ataupun memodifikasi return type method yang sudah ada.
@@ -60,12 +66,15 @@ public class OrderGenerator {
      */
     public static String generateBill(String OrderID, String lokasi){
         // TODO:Lengkapi method ini sehingga dapat mengenerate Bill sesuai ketentuan
-        return "Bill";
-    }
+        String dd = OrderID.substring(4,6);
+        String mm = OrderID.substring(6, 8);
+        String yyyy = OrderID.substring(8, 12);
 
-    public static void main(String[] args) {
-        // TODO: Implementasikan program sesuai ketentuan yang diberikanP
-        System.out.println(generateOrderID("Yoshi", "22/02/2024", "08123456789"));
+        String tanggalPemesanan = String.format("%s/%s/%s", dd,mm,yyyy);
+        String biaya = ongkosKirim(lokasi);
+
+        return "Bill:\n" + "Order ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalPemesanan
+                + "\nLokasi Pengiriman: "  + lokasi + "\nBiaya Ongkos Kirim: " + biaya;
     }
 
     public static String parseNoTelp(String noTelpon) {
@@ -115,5 +124,21 @@ public class OrderGenerator {
             return String.format("%d", code39);
         } 
         return String.format("%c", (char) (code39 - 10 + (int) 'A'));
+    }
+
+    public static String ongkosKirim (String lokasi) {
+        String biaya = "-";
+        if (lokasi.equals("P")) {
+            biaya = "Rp10.000";
+        } else if (lokasi.equals("U")) {
+            biaya = "Rp20.000";
+        } else if (lokasi.equals("T")) {
+            biaya = "Rp35.000";
+        } else if (lokasi.equals("S")) {
+            biaya = "Rp40.000";
+        } else if (lokasi.equals("B")) {
+            biaya = "Rp60.000";
+        } 
+        return biaya;
     }
 }
