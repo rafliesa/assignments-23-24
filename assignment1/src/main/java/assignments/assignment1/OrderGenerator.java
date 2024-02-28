@@ -7,89 +7,123 @@ public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // TODO: Implementasikan program sesuai ketentuan yang diberikanP
-        // System.out.println(generateOrderID("Yoshi", "22/02/2024", "08123456789"));
-        // System.out.println(generateBill("HOLY1802202453C3", "S"));
+        
+        // Mendeklarasikan variabel string yang akan dipakai
         String namaRestoran, orderID, tanggalPemesanan, noTelpon, lokasi;
+
+        // Mendeklarasikan variabel integer untuk menyimpan pilihan menu user
         int pilihMenu; 
+
+        // Memangil fungsi show menu, fungsi ini mencetak pesan awal program
+        // serta pilihan menu
         showMenu();
 
+        // Main loop program
         for (;;) {
+            // Meminta input berupa pilihan menu dari user
             System.out.println("--------------------------------------------");
             System.out.print("Pilihan menu: ");
             pilihMenu = input.nextInt(); input.nextLine();
 
+            // Kondisi ketika menu yang dipilih adalah menu 1
             while (pilihMenu == 1) {
 
+                // Meminta input berupa nama restoran
                 System.out.print("Nama Restoran: ");
                 namaRestoran = input.nextLine().strip();
+
+                // Validasi input, maka user akan dimintai kembali sesuai syarat yang berlaku
                 if (namaRestoran.length() < 4) {
                     System.out.println("Harap masukan nama restoran minimal 4 huruf!\n");
                     continue;
                 }
 
+                // Meminta input berupa tanggal pemesanan
+                // Tanggal pemesanan berformat DD/MM/YYYY
                 System.out.print("Tanggal Pemesanan: ");
                 tanggalPemesanan = input.nextLine();
+
+                // Validasi input, maka user akan diminta kembali untuk mengisi sesuai format yang benar
                 if (!tanggalPemesanan.matches("[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]")) {
                     System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
                     continue;
                 }
 
+                // Meminta input berupa nomor telpon 
                 System.out.print("No. Telpon: ");
                 noTelpon = input.nextLine();
+
+                // Validasi input, maka user diminta kembali untuk mengisi kembali sesuai syarat yang berlaku
                 if (!noTelpon.matches("^[0-9]+$")) {
                     System.out.println("Harap masukan nomor telepon dalam bilangan bulat positif.\n");
                     continue;
                 }
 
+                // Memanggil fungsi generateOrderID yang akan mengembalikan orderID
+                // hasil kembalian disimpan dalam variabel orderID
                 orderID = generateOrderID(namaRestoran, tanggalPemesanan, noTelpon);
+
+                // Mencetak Order ID
                 System.out.printf("Order ID %s diterima!\n", orderID);
+                
+                // Mencetak pilihan menu
+                showChoicesOnly();
+
                 break;
             }
             
+            // Kondisi ketika menu yang dipilih adalah menu 2
             while (pilihMenu == 2) {
+
+                // Meminta input berupa Order ID
                 System.out.print("Order ID: ");
                 orderID = input.nextLine();
+
                 if (orderID.length() < 16) {
+                    // Validasi input ketika panjang Order ID tidak sesuai\
                     System.out.println("Order ID minimal 16 karakter\n");
                     continue;
-                } else if (!orderID.substring(orderID.length()-2).equals(getChecksum(orderID.substring(0,14)))) {
+                } else if (!orderID.substring(orderID.length()-2)
+                                   .equals(getChecksum(orderID.substring(0,14)))) {
+                    // Kondisi ketika OrderId yang dimasukan tidak benar, yaitu ketika bagian chcecksum tepat
                     System.out.println("Silahkan masukkan Order ID yang valid!\n");
                     continue;
                 }
 
+                // Meminta input berupa lokasi pengiriman
                 System.out.print("Lokasi Pengiriman: ");
                 lokasi = input.nextLine();
-                while (!verifikasiLokasi(lokasi)) { 
+
+                // Kondisi ketika lokasi pengiriman tidak sesuai
+                while (!verifikasiLokasi(lokasi.toUpperCase())) { 
                     System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!\n");
                     System.out.print("Lokasi Pengiriman: ");
                     lokasi = input.nextLine();
                 }
 
+
+                // Mencetak bill orderan
                 System.out.println();
                 System.out.println(generateBill(orderID, lokasi));
                 
+                // Mencetak pilhan menu
+                showChoicesOnly();
                 break;
             }
 
             if (pilihMenu == 3) {
+                // Jika user memilih menu 3, program akan berhenti
                 System.out.println("Terima kasih telah menggunakan DepeFood!");
+                break;
             }
-            
 
         }
 
 
     }
-    /* 
-    Anda boleh membuat method baru sesuai kebutuhan Anda
-    Namun, Anda tidak boleh menghapus ataupun memodifikasi return type method yang sudah ada.
-    */
 
-    /*
-     * Method  ini untuk menampilkan menu
-     */
     public static void showMenu(){
+        // Fungsi ini menampilkan pesan menu awal
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
         System.err.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
@@ -105,19 +139,25 @@ public class OrderGenerator {
     }
 
     public static void showChoicesOnly() {
+        // Fungsi ini menampilkan pilihan menu
+        System.out.println("--------------------------------------------");
         System.out.println("Pilih menu:");
         System.err.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
     }
 
-    /*
-     * Method ini digunakan untuk membuat ID
-     * dari nama restoran, tanggal order, dan nomor telepon
-     * 
-     * @return String Order ID dengan format sesuai pada dokumen soal
-     */
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
+        // Fungsi ini mengembalikan Order ID dalam bentuk string
+        /* Keterangan orderID yang akan digenerate :
+         * - 4 huruf pertama nama restoran dalam kapital
+         * - 8 Digit Tanggal orderan dalam format DDMMYYYY
+         * - 2 Digit yang berasal dari akumulasi nomor telpon yang dimodulo 100 
+         *  (tambahkan 0 di depan jika hasilnya hanya 1 ditgit)
+         * - 2 karakter checksum (lihat fungsi getChecksum() untuk ketentuan)
+         * 
+         *  Lalu ke 16 karakter tersebut akan digabungkan membentuk sebuah string yang akan dikembalikan
+         */ 
         String namaRestoranFirstFour = namaRestoran.replaceAll("//s", "").
                                        substring(0,4).toUpperCase();
         String tanggalOrderCut = tanggalOrder.replaceAll("/", "");
@@ -130,19 +170,9 @@ public class OrderGenerator {
     }
 
 
-    /*
-     * Method ini digunakan untuk membuat bill
-     * dari order id dan lokasi
-     * 
-     * @return String Bill dengan format sesuai di bawah:
-     *          Bill:
-     *          Order ID: [Order ID]
-     *          Tanggal Pemesanan: [Tanggal Pemesanan]
-     *          Lokasi Pengiriman: [Kode Lokasi]
-     *          Biaya Ongkos Kirim: [Total Ongkos Kirim]
-     */
+
     public static String generateBill(String OrderID, String lokasi){
-        // TODO:Lengkapi method ini sehingga dapat mengenerate Bill sesuai ketentuan
+        // Fungsi ini mencetak bill dari sebuah orderan
         String dd = OrderID.substring(4,6);
         String mm = OrderID.substring(6, 8);
         String yyyy = OrderID.substring(8, 12);
@@ -155,6 +185,7 @@ public class OrderGenerator {
     }
 
     public static String parseNoTelp(String noTelpon) {
+        // Fungsi ini mereturn hasil olahan nomor telpon
         int noTelpSum = 0;
         for (int i = 0; i < noTelpon.length(); i++) {
             noTelpSum += Integer.parseInt(String.valueOf(noTelpon.charAt(i)));
@@ -167,6 +198,16 @@ public class OrderGenerator {
     }
     
     public static String getChecksum(String str) {
+        /* Fungsi ini mengembalikan checksum dalam bentuk string yang berisi dua karakter
+         * 
+         * Ketentuan checksum :
+         * - Ubah 14 karakter pertama orderID menjadi code39
+         * - Akumulasi jumlah masing - masing posisi genap dan ganjil
+         * - Ambil modulo 36 dari masing - masing akumulasi jumlah tersebut 
+         * - Ubah hasil modulo tersebut menjadi ascii kembali
+         * - karakter pertama diisi oleh hasil genap
+         * - karakter kedua diisi oleh hasil ganjil
+         */
         int oddSum = 0;
         int evenSum = 0;
 
@@ -187,6 +228,7 @@ public class OrderGenerator {
     }
 
     public static int toCode39(char x) {
+        // Fungsi ini mengembalikan terjemahan karakter ascii ke code39
         if ('0' <= x && x <= '9') {
             return (int) x - '0';
         } else if ('A' <= x && x <= 'Z') {
@@ -197,6 +239,7 @@ public class OrderGenerator {
     }
 
     public static String code39ToAscii(int code39) {
+        // Fungsi ini mengembalikan terjemahan code39 ke karakter ascii
         if (code39 <= 9) {
             return String.format("%d", code39);
         } 
@@ -204,6 +247,7 @@ public class OrderGenerator {
     }
 
     public static String ongkosKirim (String lokasi) {
+        // Fungsi ini mengembalikan ongkos kirim bedasarkan lokasi
         String biaya = "-";
         if (lokasi.equals("P")) {
             biaya = "Rp 10.000";
@@ -220,6 +264,7 @@ public class OrderGenerator {
     }
 
     public static boolean verifikasiLokasi (String lokasi) {
+        // Fungsi ini memvalidasi input lokasi
         String[] listLokasi = {"P","U","T","S","B"};
         for (String lok : listLokasi) {
             if (lok.equals(lokasi)) {
