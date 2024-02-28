@@ -7,7 +7,7 @@ public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
-        
+            
         // Mendeklarasikan variabel string yang akan dipakai
         String namaRestoran, orderID, tanggalPemesanan, noTelpon, lokasi;
 
@@ -44,7 +44,7 @@ public class OrderGenerator {
                 tanggalPemesanan = input.nextLine();
 
                 // Validasi input, maka user akan diminta kembali untuk mengisi sesuai format yang benar
-                if (!tanggalPemesanan.matches("[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]")) {
+                if (!tanggalPemesanan.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
                     System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
                     continue;
                 }
@@ -83,7 +83,12 @@ public class OrderGenerator {
                     // Validasi input ketika panjang Order ID tidak sesuai\
                     System.out.println("Order ID minimal 16 karakter\n");
                     continue;
-                } else if (!orderID.substring(orderID.length()-2)
+                } else if (!orderID.matches("....[0-9]{10}..")) {
+                    // Kondisi ketika format OrderId tidak tepat
+                    System.out.println("Silahkan masukkan Order ID yang valid!\n");
+                    continue;
+                }
+                 else if (!orderID.substring(orderID.length()-2)
                                    .equals(getChecksum(orderID.substring(0,14)))) {
                     // Kondisi ketika OrderId yang dimasukan tidak benar, yaitu ketika bagian chcecksum tepat
                     System.out.println("Silahkan masukkan Order ID yang valid!\n");
@@ -173,19 +178,29 @@ public class OrderGenerator {
 
     public static String generateBill(String OrderID, String lokasi){
         // Fungsi ini mencetak bill dari sebuah orderan
+
+        // deklarasi variabel untuk hari, bulan, dan tahun yang akan digabungkan untuk
+        // membentuk tanggal pemesanan
         String dd = OrderID.substring(4,6);
         String mm = OrderID.substring(6, 8);
         String yyyy = OrderID.substring(8, 12);
 
+        // Deklarasi variabel tanggal pemesanan
         String tanggalPemesanan = String.format("%s/%s/%s", dd,mm,yyyy);
+
+        // deklarasi vairabel biaya 
         String biaya = ongkosKirim(lokasi.toUpperCase());
 
+        // Mengembalikan bill dalam bentuk String
         return "Bill:\n" + "Order ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalPemesanan
                 + "\nLokasi Pengiriman: "  + lokasi.toUpperCase() + "\nBiaya Ongkos Kirim: " + biaya + "\n";
     }
 
     public static String parseNoTelp(String noTelpon) {
-        // Fungsi ini mereturn hasil olahan nomor telpon
+        /* Fungsi ini mereturn hasil olahan nomor telpon
+         * Akumulasi seluruh digit nomor telpon lalu dimodulo 100
+         * Jika hasilnya hanya 1 digit maka tambahkan 0 di depannya
+         */
         int noTelpSum = 0;
         for (int i = 0; i < noTelpon.length(); i++) {
             noTelpSum += Integer.parseInt(String.valueOf(noTelpon.charAt(i)));
@@ -229,6 +244,8 @@ public class OrderGenerator {
 
     public static int toCode39(char x) {
         // Fungsi ini mengembalikan terjemahan karakter ascii ke code39
+        // 1-9 = karakter 1-9
+        // 10-35 = karakter A-Z secara berurutan
         if ('0' <= x && x <= '9') {
             return (int) x - '0';
         } else if ('A' <= x && x <= 'Z') {
@@ -240,6 +257,8 @@ public class OrderGenerator {
 
     public static String code39ToAscii(int code39) {
         // Fungsi ini mengembalikan terjemahan code39 ke karakter ascii
+        // 1-9 = karakter 1-9
+        // 10-35 = karakter A-Z secara berurutan
         if (code39 <= 9) {
             return String.format("%d", code39);
         } 
@@ -248,6 +267,7 @@ public class OrderGenerator {
 
     public static String ongkosKirim (String lokasi) {
         // Fungsi ini mengembalikan ongkos kirim bedasarkan lokasi
+        // Jika lokasi tidak sesuai, akan mengembalikan "-"
         String biaya = "-";
         if (lokasi.equals("P")) {
             biaya = "Rp 10.000";
@@ -264,8 +284,9 @@ public class OrderGenerator {
     }
 
     public static boolean verifikasiLokasi (String lokasi) {
-        // Fungsi ini memvalidasi input lokasi
-        String[] listLokasi = {"P","U","T","S","B"};
+        // Fungsi ini megembalikan boolean apakah lokasi valid
+        
+        String[] listLokasi = {"P","U","T","S","B"}; // list yang berisi lokasi yang valid
         for (String lok : listLokasi) {
             if (lok.equals(lokasi)) {
                 return true;
