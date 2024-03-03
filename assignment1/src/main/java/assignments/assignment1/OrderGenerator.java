@@ -34,7 +34,7 @@ public class OrderGenerator {
 
                 // Validasi input, maka user akan dimintai kembali sesuai syarat yang berlaku
                 if (namaRestoran.length() < 4) {
-                    System.out.println("Harap masukan nama restoran minimal 4 huruf!\n");
+                    System.out.println("Nama Restoran tidak valid!\n");
                     continue;
                 }
 
@@ -100,10 +100,9 @@ public class OrderGenerator {
                 lokasi = input.nextLine();
 
                 // Kondisi ketika lokasi pengiriman tidak sesuai
-                while (!verifikasiLokasi(lokasi.toUpperCase())) { 
+                if (!verifikasiLokasi(lokasi.toUpperCase())) { 
                     System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!\n");
-                    System.out.print("Lokasi Pengiriman: ");
-                    lokasi = input.nextLine();
+                    continue;
                 }
 
 
