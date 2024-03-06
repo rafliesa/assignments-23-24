@@ -1,3 +1,15 @@
+Nama : Muhammad Rafli Esa Pradana
+NPM : 2306207480
+Kelas : DDP2-A
+Asdos : FJR
+
+
+
+
+
+
+
+
 # Tugas Pemrograman DDP2 2023/2024
 
 CSGE601021 Dasar-Dasar Pemrograman 2 @ Fakultas Ilmu Komputer Universitas Indonesia,
