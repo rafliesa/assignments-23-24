@@ -24,6 +24,7 @@ Semester Genap 2023/2024
 
 1. Soal Tugas Pemrograman
    * [Tugas Pemrograman 1][tp1]
+   * [Tugas Pemrograman 2][tp2]
 2. [Latihan Tugas Pemrograman](#latihan-tugas-pemrograman)
 3. [Memulai](#memulai)
 4. [Mengerjakan Tugas Pemrograman](#mengerjakan-tugas-pemrograman)
@@ -112,6 +113,7 @@ yang telah dijelaskan dalam perkuliahan.
 <!-- Kumpulan Link -->
 [latihan-tp]: https://github.com/dekdepe/exercise-assignments
 [tp1]: assignment1/README.md
+[tp2]:assignment2/README.md
 [repositori-pusat]: https://github.com/dekdepe/assignments-23-24
 
 [repositori-2018]: https://gitlab.com/DDP2-CSUI/assignment
