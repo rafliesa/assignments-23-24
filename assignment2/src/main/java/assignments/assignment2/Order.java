@@ -89,18 +89,18 @@ public class Order {
     public static double ongkosKirim (String lokasi) {
         // Fungsi ini mengembalikan ongkos kirim bedasarkan lokasi
         // Jika lokasi tidak sesuai, akan mengembalikan "-"
-        Double biaya;
+        Double biaya = 0.0;
         if (lokasi.equals("P")) {
-            biaya = 10000;
+            biaya = 10000.0;
         } else if (lokasi.equals("U")) {
-            biaya = 20000;
+            biaya = 20000.0;
         } else if (lokasi.equals("T")) {
-            biaya = 35000;
+            biaya = 35000.0;
         } else if (lokasi.equals("S")) {
-            biaya = 40000;
+            biaya = 40000.0;
         } else if (lokasi.equals("B")) {
-            biaya = 60000;
-        } 
+            biaya = 60000.0;
+        }
         return biaya;
     }
 

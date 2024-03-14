@@ -46,8 +46,8 @@ public class MainMenu {
                         switch(commandCust){
                             case 1 -> handleBuatPesanan(userLoggedIn);
                             case 2 -> handleCetakBill(userLoggedIn);
-                            case 3 -> handleLihatMenu();
-                            case 4 -> handleUpdateStatusPesanan();
+                            case 3 -> handleLihatMenu(userLoggedIn);
+                            case 4 -> handleUpdateStatusPesanan(userLoggedIn);
                             case 5 -> isLoggedIn = false;
                             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
                         }
@@ -158,7 +158,7 @@ public class MainMenu {
 
     }
 
-    public static void handleLihatMenu(){
+    public static void handleLihatMenu(User user){
         System.out.println("--------------Lihat Menu--------------");
         while (true) {
             System.out.print("Nama Restoran: ");
@@ -177,7 +177,7 @@ public class MainMenu {
 
     }
 
-    public static void handleUpdateStatusPesanan(){
+    public static void handleUpdateStatusPesanan(User user){
         System.out.println("--------------Update Status Pesanan--------------");
         while (true) {
             System.out.print("Order ID: ");
@@ -191,7 +191,7 @@ public class MainMenu {
             System.out.print("Status: ");
             String statusOrder = input.nextLine();
             
-            if (statusOrder.toLowerCase.equals("selesai")) {
+            if (statusOrder.toLowerCase().equals("selesai")) {
                 user.getOrder(orderID).setStatus(true);
             }
         }
