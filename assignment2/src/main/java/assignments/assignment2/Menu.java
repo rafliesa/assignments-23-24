@@ -10,5 +10,15 @@ public class Menu {
         this.harga = harga;
     }
 
-    // TODO: tambahkan methods yang diperlukan untuk class ini
+    public String getNamaMakanan() {
+        return this.namaMakanan;
+    }
+
+    public Double getHarga() {
+        return this.harga;
+    }
+
+    public String toString() {
+        return String.format("%s %.0f", namaMakanan, harga);
+    }
 }

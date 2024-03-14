@@ -19,6 +19,7 @@ public class User {
         this.email = email;
         this.lokasi = lokasi;
         this.role = role;
+        this.orderHistory = new ArrayList<Order>();
     }
 
     public String getName() {
@@ -45,8 +46,26 @@ public class User {
         return this.orderHistory;
     }
 
-    public void addOrderHistory(Order valuOrder) {
-        this.orderHistory.add();
+    public void addOrderHistory(Order order) {
+        this.orderHistory.add(order);
+    }
+
+    public Boolean orderExist (String orderID) {
+        for (Order order : orderHistory) {
+            if (order.getOrderId().equals(orderID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Order getOrder (String orderID) {
+        for (Order order : orderHistory) {
+            if (order.getOrderId().equals(orderID)) {
+                return order;
+            }
+        }
+        return null;
     }
 
     // TODO: tambahkan methods yang diperlukan untuk class ini
