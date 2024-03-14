@@ -153,6 +153,7 @@ public class MainMenu {
             }
 
             user.getOrder(orderID).cetakBill();
+            break;
         }
 
 
@@ -194,6 +195,8 @@ public class MainMenu {
             if (statusOrder.toLowerCase().equals("selesai")) {
                 user.getOrder(orderID).setStatus(true);
             }
+
+            break;
         }
 
 

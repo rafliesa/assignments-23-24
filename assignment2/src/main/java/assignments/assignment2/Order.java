@@ -54,19 +54,13 @@ public class Order {
     }
     
     public void cetakBill(){
-        String dd = this.orderId.substring(4,6);
-        String mm = this.orderId.substring(6, 8);
-        String yyyy = this.orderId.substring(8, 12);
-
+        // Mendeklarasikan total biaya
         double totalBiaya = 0;
-        // Deklarasi variabel tanggal pemesanan
-        String tanggalPemesanan = String.format("%s/%s/%s", dd,mm,yyyy);
-
 
         // Mengembalikan bill dalam bentuk String
         System.out.println("Bill");
         System.out.printf("Order ID: %s%n", this.orderId);
-        System.out.printf("Tanggal Pemesanan: %s%s%s%n", dd,mm,yyyy);
+        System.out.printf("Tanggal Pemesanan: %s", getTanggal());
         System.out.printf("Restaurant: %s", this.restaurant.getName());
         System.out.printf("Lokasi Pengiriman: %s", this.belongsTo.getLokasi());
         System.out.print("Status pengiriman: ");
@@ -78,12 +72,12 @@ public class Order {
         System.out.println("Pesanan:");
         for (Menu menu : items) {
             totalBiaya += menu.getHarga();
-            System.out.printf("- %s", menu);
+            System.out.printf("- %s%n", menu);
         }
-        System.out.printf("Biaya Ongkos Kirim: Rp %f%n", ongkosKirim(belongsTo.getLokasi()));
+        System.out.printf("Biaya Ongkos Kirim: Rp %.0f%n", ongkosKirim(belongsTo.getLokasi()));
         totalBiaya += ongkosKirim(belongsTo.getLokasi());
 
-        System.out.printf("Total Biaya: %f Rp", totalBiaya);
+        System.out.printf("Total Biaya: Rp %.0f ", totalBiaya);
     }
 
     public static double ongkosKirim (String lokasi) {

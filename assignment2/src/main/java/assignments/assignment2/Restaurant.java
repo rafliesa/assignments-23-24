@@ -57,18 +57,28 @@ public class Restaurant {
     
     public void cetakMenu() {
         int count = 1;
-        Collections.sort(menu, new Comparator<Menu>() {
-            public int compare(Menu o1, Menu o2) {
-                return o1.getHarga().compareTo(o2.getHarga());
-            }
 
-        });
-
-        Collections.sort(menu, (o1,o2)-> o1.getHarga().compareTo(o2.getHarga()));
-
-        System.out.println("Menu:");
+        sortMenu();
+        
+        System.out.print("Menu:");
         for (Menu daftarMenu : menu) {
-            System.out.printf("%d. %s%n",count++, daftarMenu);
+            System.out.printf("%n%d. %s",count++, daftarMenu);
+        }
+    }
+
+    private void sortMenu() {
+
+        for (int i = 0; i < getMenu().size()-1; i++) {
+            for (int j = i; j < getMenu().size(); j++) {
+                Menu a = getMenu().get(i);
+                Menu b = getMenu().get(j);
+
+                if (a.getHarga() > b.getHarga()) {
+                    getMenu().set(i, b);
+                    getMenu().set(j, a);
+                }
+
+            }
         }
     }
 }
