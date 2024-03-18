@@ -27,6 +27,7 @@ public class OrderGenerator {
 
             // Kondisi ketika menu yang dipilih adalah menu 1
             while (pilihMenu == 1) {
+                // Generate orderId
 
                 // Meminta input berupa nama restoran
                 System.out.print("Nama Restoran: ");
@@ -74,6 +75,7 @@ public class OrderGenerator {
             
             // Kondisi ketika menu yang dipilih adalah menu 2
             while (pilihMenu == 2) {
+                // cetak bill
 
                 // Meminta input berupa Order ID
                 System.out.print("Order ID: ");
@@ -158,7 +160,7 @@ public class OrderGenerator {
          * - 2 Digit yang berasal dari akumulasi nomor telpon yang dimodulo 100 
          *  (tambahkan 0 di depan jika hasilnya hanya 1 ditgit)
          * - 2 karakter checksum (lihat fungsi getChecksum() untuk ketentuan)
-         * 
+         *  
          *  Lalu ke 16 karakter tersebut akan digabungkan membentuk sebuah string yang akan dikembalikan
          */ 
         String namaRestoranFirstFour = namaRestoran.replaceAll("//s", "").
@@ -176,6 +178,13 @@ public class OrderGenerator {
 
     public static String generateBill(String OrderID, String lokasi){
         // Fungsi ini mencetak bill dari sebuah orderan
+
+        /* BIll:
+         * Order ID:
+         * Tanggal Pemesanan: DD/MM//YYY
+         * Lokasi Pengiriman:
+         * Biaya Ongkir: 
+         */
 
         // deklarasi variabel untuk hari, bulan, dan tahun yang akan digabungkan untuk
         // membentuk tanggal pemesanan
@@ -245,9 +254,9 @@ public class OrderGenerator {
         // 1-9 = karakter 1-9
         // 10-35 = karakter A-Z secara berurutan
         if ('0' <= x && x <= '9') {
-            return (int) x - '0';
+            return (int) x - '0'; // cari posisi relatifnya terhadap ascii 0
         } else if ('A' <= x && x <= 'Z') {
-            return (int) x - 'A' + 10;
+            return (int) x - 'A' + 10; // cari posisi relatifnya terhadap ascii A lalu tambah 10
         } else {
             return -1;
         }
