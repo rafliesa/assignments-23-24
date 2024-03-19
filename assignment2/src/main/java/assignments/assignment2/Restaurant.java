@@ -73,9 +73,22 @@ public class Restaurant {
                 if (a.getHarga() > b.getHarga()) {
                     getMenu().set(i, b);
                     getMenu().set(j, a);
+                } else if (compareString(a.getNamaMakanan(), b.getNamaMakanan())) {
+                    getMenu().set(i, b);
+                    getMenu().set(j, a);
                 }
 
             }
         }
+    }
+    
+    // Fungsi ini mengecek apakah string A > string B secara alfabet
+    public static boolean compareString(String a, String b) {
+        for (int i = 0; i < Math.min(a.length(), b.length()); i++) {
+            if (a.charAt(i) > b.charAt(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
