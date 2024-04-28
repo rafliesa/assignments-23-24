@@ -1,7 +1,7 @@
 package assignments.assignment3.systemCLI;
 
 import java.util.Scanner;
-import assignments.assignment2.*;
+import assignments.assignment3.tp2.MainTepeDua;
 import assignments.assignment3.MainMenu;
 
 //TODO: Extends abstract class yang diberikan
@@ -10,9 +10,9 @@ public class CustomerSystemCLI extends UserSystemCLI {
     //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     boolean handleMenu(int choice){
         switch(choice){
-            case 1 -> assignments.assignment2.MainMenu.handleBuatPesanan(MainMenu.userLoggedIn, MainMenu.restoList); 
-            case 2 -> assignments.assignment2.MainMenu.handleCetakBill(MainMenu.userLoggedIn);
-            case 3 -> assignments.assignment2.MainMenu.handleLihatMenu(MainMenu.userLoggedIn, MainMenu.restoList);
+            case 1 -> MainTepeDua.handleBuatPesanan(MainMenu.userLoggedIn, MainMenu.restoList); 
+            case 2 -> MainTepeDua.handleCetakBill(MainMenu.userLoggedIn);
+            case 3 -> MainTepeDua.handleLihatMenu(MainMenu.userLoggedIn, MainMenu.restoList);
             case 4 -> handleBayarBill();
             case 5 -> handleUpdateStatusPesanan();
             case 6 -> {
