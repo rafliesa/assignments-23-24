@@ -5,13 +5,16 @@ import java.util.ArrayList;
 public class Restaurant {
     // Deklarasi instance variables
     private String nama;
+    private long saldo;
     private ArrayList<Menu> menu;
     
     // Constructor 
     public Restaurant(String nama){
         this.nama = nama;
+        this.saldo = 0;
         this.menu = new ArrayList<Menu>();
     }
+    
 
     
     // Getter untuk nama 
@@ -73,7 +76,7 @@ public class Restaurant {
                 if (a.getHarga() > b.getHarga()) {
                     getMenu().set(i, b);
                     getMenu().set(j, a);
-                } else if (compareString(a.getNamaMakanan(), b.getNamaMakanan())) {
+                } else if (a.getHarga() == b.getHarga() && compareString(a.getNamaMakanan(), b.getNamaMakanan())) {
                     getMenu().set(i, b);
                     getMenu().set(j, a);
                 }
@@ -90,5 +93,17 @@ public class Restaurant {
             }
         }
         return false;
+    }
+
+    public long getSaldo(){
+        return this.saldo;
+    }
+
+    public void setSaldo(long amount){
+        this.saldo = amount;
+    }
+
+    public void addSaldo(long amount){
+        this.saldo += amount;
     }
 }

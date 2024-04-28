@@ -64,9 +64,9 @@ public class MainMenu {
                         input.nextLine();
 
                         switch(commandCust){
-                            case 1 -> handleBuatPesanan(userLoggedIn);
+                            case 1 -> handleBuatPesanan(userLoggedIn, restoList);
                             case 2 -> handleCetakBill(userLoggedIn);
-                            case 3 -> handleLihatMenu(userLoggedIn);
+                            case 3 -> handleLihatMenu(userLoggedIn, restoList);
                             case 4 -> handleUpdateStatusPesanan(userLoggedIn);
                             case 5 -> isLoggedIn = false;
                             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
@@ -84,8 +84,8 @@ public class MainMenu {
                         input.nextLine();
 
                         switch(commandAdmin){
-                            case 1 -> handleTambahRestoran();
-                            case 2 -> handleHapusRestoran();
+                            case 1 -> handleTambahRestoran(restoList);
+                            case 2 -> handleHapusRestoran(restoList);
                             case 3 -> isLoggedIn = false;
                             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
                         }
@@ -112,7 +112,7 @@ public class MainMenu {
         return null;
     }
 
-    public static void handleBuatPesanan(User userLoggedIn){
+    public static void handleBuatPesanan(User userLoggedIn, ArrayList<Restaurant> restoList){
         // Fungsi ketika customer ingin membuat pesanan
         System.out.println("--------------Buat Pesanan--------------");
 
@@ -123,13 +123,13 @@ public class MainMenu {
             String namaResto = input.nextLine();
             
             // Kondisi ketika nama restoran tidak ada di sistem
-            if (!restoExists(namaResto)) {
+            if (!restoExists(namaResto, restoList)) {
                 System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
 
             // Memilih objek restoran
-            Restaurant selectedResto = restoSelector(namaResto);
+            Restaurant selectedResto = restoSelector(namaResto, restoList);
 
             // Meminta input tanggal
             System.out.print("Tanggal Pemesanan(DD/MM/YYYY): ");
@@ -202,7 +202,7 @@ public class MainMenu {
 
     }
 
-    public static void handleLihatMenu(User user){
+    public static void handleLihatMenu(User user, ArrayList<Restaurant> restoList){
         // Fungsi ini mencetak menu dari restoran yang dipilih
         System.out.println("--------------Lihat Menu--------------");
         while (true) {
@@ -212,13 +212,13 @@ public class MainMenu {
             String namaResto = input.nextLine();
     
             // Kondisi ketika nama restoran yang diinput tidak ada pada sistem
-            if (!restoExists(namaResto)) {
+            if (!restoExists(namaResto, restoList)) {
                 System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
             
             // Pilih objek restoran yang sesuai dengan nama yang diinput
-            Restaurant selectedResto = restoSelector(namaResto);
+            Restaurant selectedResto = restoSelector(namaResto, restoList);
 
             // Cetak menu
             selectedResto.cetakMenu();
@@ -258,7 +258,7 @@ public class MainMenu {
 
     }
 
-    public static void handleTambahRestoran(){
+    public static void handleTambahRestoran(ArrayList<Restaurant> restoList){
         System.out.println("--------------Tambah Restoran--------------");
         while (true) {
 
@@ -271,7 +271,7 @@ public class MainMenu {
                 continue;
             }
             // Validasi input nama
-            if (restoExists(nama)) {
+            if (restoExists(nama, restoList)) {
                 System.out.printf("Restoran dengan nama %s sudah pernah terdaftar. Mohon masukkan nama yang berbeda!%n%n", nama);
                 continue;
             }
@@ -310,7 +310,7 @@ public class MainMenu {
     }
 
 
-    public static void handleHapusRestoran(){
+    public static void handleHapusRestoran(ArrayList<Restaurant> restoList){
         // Kasus ketika resto masih kosong, maka keluar fungsi ini
         if (restoList.isEmpty()) {
             System.out.println("Resto masih kosong");
@@ -325,7 +325,7 @@ public class MainMenu {
             String namaResto = input.nextLine();
 
             // Kondisi ketika tidak ada resto pada list
-            if (!restoExists(namaResto)) {
+            if (!restoExists(namaResto, restoList)) {
                 System.out.println("Restoran tidak terdaftar pada Sistem.");
                 continue;
             }
@@ -439,11 +439,11 @@ public class MainMenu {
         return result;
     }
 
-    public static boolean restoExists(String nama) {
+    public static boolean restoExists(String nama, ArrayList<Restaurant> restoList) {
         // fungsi ini mengembalikan boolean apakah nama restaurant valid atau tidak
         // jika nama restaurant sudah ada, maka akan dianggap tidak valid
         for (Restaurant restaurant : restoList) {
-            if (restaurant.getName().equals(nama)) {
+            if (restaurant.getName().equalsIgnoreCase(nama)) {
                 return true;
             }
         }
@@ -463,7 +463,7 @@ public class MainMenu {
         return true;
     }
 
-    public static Restaurant restoSelector(String name) {
+    public static Restaurant restoSelector(String name, ArrayList<Restaurant> restoList) {
         // Fungsi ini mengembalikan objek restoran yang memiliki nama sesuai dengan parameter
         for (Restaurant restaurant : restoList) {
             if (restaurant.getName().equals(name)) {

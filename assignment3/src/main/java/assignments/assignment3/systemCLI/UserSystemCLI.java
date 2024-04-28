@@ -3,13 +3,13 @@ package assignments.assignment3.systemCLI;
 import java.util.Scanner;
 
 public abstract class UserSystemCLI {
-    protected Scanner input;
+    protected static Scanner input = new Scanner(System.in);
+    
     public void run() {
         boolean isLoggedIn = true;
         while (isLoggedIn) {
             displayMenu();
-            int command = input.nextInt();
-            input.nextLine();
+            int command = Integer.parseInt(input.nextLine());
             isLoggedIn = handleMenu(command);
         }
     }

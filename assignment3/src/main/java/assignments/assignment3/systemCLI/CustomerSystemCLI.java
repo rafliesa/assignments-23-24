@@ -1,16 +1,18 @@
 package assignments.assignment3.systemCLI;
 
 import java.util.Scanner;
+import assignments.assignment2.*;
+import assignments.assignment3.MainMenu;
 
 //TODO: Extends abstract class yang diberikan
-public class CustomerSystemCLI {
+public class CustomerSystemCLI extends UserSystemCLI {
 
     //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     boolean handleMenu(int choice){
         switch(choice){
-            case 1 -> handleBuatPesanan();
-            case 2 -> handleCetakBill();
-            case 3 -> handleLihatMenu();
+            case 1 -> assignments.assignment2.MainMenu.handleBuatPesanan(MainMenu.userLoggedIn, MainMenu.restoList); 
+            case 2 -> assignments.assignment2.MainMenu.handleCetakBill(MainMenu.userLoggedIn);
+            case 3 -> assignments.assignment2.MainMenu.handleLihatMenu(MainMenu.userLoggedIn, MainMenu.restoList);
             case 4 -> handleBayarBill();
             case 5 -> handleUpdateStatusPesanan();
             case 6 -> {
@@ -35,23 +37,11 @@ public class CustomerSystemCLI {
         System.out.print("Pilihan menu: ");
     }
 
-    void handleBuatPesanan(){
-        // TODO: Implementasi method untuk handle ketika customer membuat pesanan
-    }
-
-    void handleCetakBill(){
-        // TODO: Implementasi method untuk handle ketika customer ingin cetak bill
-    }
-
-    void handleLihatMenu(){
-        // TODO: Implementasi method untuk handle ketika customer ingin melihat menu
-    }
-
     void handleBayarBill(){
         // TODO: Implementasi method untuk handle ketika customer ingin melihat menu
     }
 
-    public void handleUpdateStatusPesanan(){
-        // TODO: Implementasi method untuk handle ketika customer ingin update status pesanan
+    void handleUpdateStatusPesanan(){
+
     }
 }

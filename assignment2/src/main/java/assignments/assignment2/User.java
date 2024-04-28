@@ -11,6 +11,7 @@ public class User {
     private String lokasi;
     public String role;
     private ArrayList<Order> orderHistory;
+    private long saldo;
 
 
     // Constructor
@@ -21,6 +22,18 @@ public class User {
         this.lokasi = lokasi;
         this.role = role;
         this.orderHistory = new ArrayList<Order>();
+    }
+
+    
+    // Constructor untuk tp3
+    public User(String nama, String nomorTelepon, String email, String lokasi, String role, long saldo){
+        this.nama = nama;
+        this.nomorTelpon = nomorTelepon;
+        this.email = email;
+        this.lokasi = lokasi;
+        this.role = role;
+        this.orderHistory = new ArrayList<Order>();
+        this.saldo = saldo;
     }
 
     // Getter untuk nama
@@ -76,5 +89,17 @@ public class User {
             }
         }
         return null;
+    }
+
+    public long getSaldo(){
+        return this.saldo;
+    }
+
+    public void setSaldo(long amount){
+        this.saldo = amount;
+    }
+
+    public void addSaldo(long amount){
+        this.saldo += amount;
     }
 }
