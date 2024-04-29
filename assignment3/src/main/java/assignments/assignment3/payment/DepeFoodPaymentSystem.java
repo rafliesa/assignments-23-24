@@ -1,9 +1,11 @@
 package assignments.assignment3.payment;
+import assignments.assignment3.tp2.*;
 
+/* Interface untuk DepeFoodPaymentSystem
+   Interface ini menyaratkan kelas yang mengimplementasikannya untuk memiliki method
+   processPayment sebagai pemroses transaksi
+*/
+ 
 public interface DepeFoodPaymentSystem {
-    //TODO implementasikan interface di sini
-    // Atribut harap mengikuti dokumen soal
-    // Anda dibebaskan untuk membuat method yang diperlukan
-    public abstract long processPayment(long amount);
-
+    public abstract void processPayment(long amount, Order order);
 }

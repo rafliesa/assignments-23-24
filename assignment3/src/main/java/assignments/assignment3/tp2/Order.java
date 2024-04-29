@@ -13,6 +13,7 @@ public class Order {
     private ArrayList<Menu> items;
     private boolean orderFinished;
     private User belongsTo;
+    private long totalBiaya;
     
     // Constructor
     public Order(String orderId, String tanggal, int ongkir, Restaurant resto, ArrayList<Menu> items, User belongsTo){
@@ -107,4 +108,20 @@ public class Order {
         return biaya;
     }
 
+    public long getTotalBiaya(){
+        long totalBiaya = 0;
+        for (Menu menu : items) {
+            totalBiaya += menu.getHarga();
+        }
+        totalBiaya += ongkosKirim(belongsTo.getLokasi());
+        return totalBiaya;
+    }
+
+    public boolean getStatus(){
+        return this.orderFinished;
+    }
+
+    public void finishOrder(){
+        this.orderFinished = true;
+    }
 }

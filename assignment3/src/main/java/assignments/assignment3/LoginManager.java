@@ -2,8 +2,8 @@ package assignments.assignment3;
 
 import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
-import assignments.assignment3.systemCLI.UserSystemCLI;
 
+// Kelas yang merepresentasikan login manager
 public class LoginManager {
     private final AdminSystemCLI adminSystem;
     private final CustomerSystemCLI customerSystem;
@@ -13,7 +13,8 @@ public class LoginManager {
         this.customerSystem = customerSystem;
     }
 
-    //TODO: Solve the error :) (It's actually easy if you have done the other TODOs)
+    // fungsi ini berfungsi sebagai portal yang mengantarkan pengguna 
+    // ke antarmuka yang sesuai rolenya
     public void getSystem(String role){
         if(role == "Customer"){
             customerSystem.run();

@@ -4,16 +4,18 @@ import java.util.Scanner;
 
 import java.util.ArrayList;
 import assignments.assignment3.tp2.*;
-import assignments.assignment3.LoginManager;
+import assignments.assignment3.payment.CreditCardPayment;
+import assignments.assignment3.payment.DebitPayment;
 import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
 
+// Kelas ini adalah kelas utama tp3
 public class MainMenu {
     private final Scanner input;
     private final LoginManager loginManager;
     public static User userLoggedIn;
     public static ArrayList<Restaurant> restoList = new ArrayList<Restaurant>();
-    public static ArrayList<User> userList;
+    private static ArrayList<User> userList;
 
     public MainMenu(Scanner in, LoginManager loginManager) {
         this.input = in;
@@ -27,6 +29,7 @@ public class MainMenu {
     }
 
     public void run(){
+        // Fungsi ini berfungsi untuk menampilkan menu awal
         printHeader();
         boolean exit = false;
         while (!exit) {
@@ -44,22 +47,26 @@ public class MainMenu {
     }
 
     private void login(){
+        // fungsi ini berfungsi sebagai logika untuk melakukan login
         while (true) {
+            // meminta input nama dan nomor telpon untuk melakukan login
             System.out.println("\nSilakan Login:");
             System.out.print("Nama: ");
             String nama = input.nextLine();
             System.out.print("Nomor Telepon: ");
             String noTelp = input.nextLine();
     
-            // TODO: Validasi input login
-            if (!loginVerifier(nama, noTelp)) {
+            // validasi data yang dimasukan
+            if (!MainTepeDua.loginVerifier(nama, noTelp, userList)) {
                 System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
                 continue;
             }
-            userLoggedIn = getUser(nama, noTelp);
+
+            userLoggedIn = MainTepeDua.getUser(nama, noTelp, userList);
             break;
         }
-        
+
+        // Memanggil kelas loginManager untuk ditentukan antarmuka selanjutnya sesuai role
         loginManager.getSystem(userLoggedIn.role);
     }
 
@@ -85,36 +92,13 @@ public class MainMenu {
 
     public static void initUser(){
         userList = new ArrayList<User>();
-        userList.add(new User("Thomas N", "9928765403", "thomas.n@gmail.com", "P", "Customer"));
-        userList.add(new User("Sekar Andita", "089877658190", "dita.sekar@gmail.com", "B", "Customer"));
-        userList.add(new User("Sofita Yasusa", "084789607222", "sofita.susa@gmail.com", "T", "Customer"));
-        userList.add(new User("Dekdepe G", "080811236789", "ddp2.gampang@gmail.com", "S", "Customer"));
-        userList.add(new User("Aurora Anum", "087788129043", "a.anum@gmail.com", "U", "Customer"));
- 
-        userList.add(new User("Admin", "123456789", "admin@gmail.com", "-", "Admin"));
-        userList.add(new User("Admin Baik", "9123912308", "admin.b@gmail.com", "-", "Admin"));
-     }
+        userList.add(new User("Thomas N", "9928765403", "thomas.n@gmail.com", "P", "Customer", new DebitPayment(), 500000));
+        userList.add(new User("Sekar Andita", "089877658190", "dita.sekar@gmail.com", "B", "Customer", new CreditCardPayment(), 2000000));
+        userList.add(new User("Sofita Yasusa", "084789607222", "sofita.susa@gmail.com", "T", "Customer", new DebitPayment(), 750000));
+        userList.add(new User("Dekdepe G", "080811236789", "ddp2.gampang@gmail.com", "S", "Customer", new CreditCardPayment(), 1800000));
+        userList.add(new User("Aurora Anum", "087788129043", "a.anum@gmail.com", "U", "Customer", new DebitPayment(), 650000));
 
-     public static boolean loginVerifier(String nama, String noTelpon) {
-        // Fungsi ini mengembalikan boolean apakah input login user benar
-        for (User user : userList) {
-            if (user.getName().equals(nama)) {
-                if (user.getNotelpon().equals(noTelpon)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public static User getUser(String nama, String nomorTelepon){
-        for (User user : userList) {
-            if (user.getName().equals(nama)) {
-                if (user.getNotelpon().equals(nomorTelepon)) {
-                    return user;
-                }
-            }
-        }
-        return null;
+        userList.add(new User("Admin", "123456789", "admin@gmail.com", "-", "Admin", new CreditCardPayment(), 0));
+        userList.add(new User("Admin Baik", "9123912308", "admin.b@gmail.com", "-", "Admin", new CreditCardPayment(), 0));
     }
 }

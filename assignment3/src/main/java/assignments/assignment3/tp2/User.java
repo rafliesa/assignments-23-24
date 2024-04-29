@@ -14,6 +14,7 @@ public class User {
     public String role;
     private ArrayList<Order> orderHistory;
     private long saldo;
+    private DepeFoodPaymentSystem payment;
 
 
     // Constructor
@@ -36,6 +37,7 @@ public class User {
         this.role = role;
         this.orderHistory = new ArrayList<Order>();
         this.saldo = saldo;
+        this.payment = payment;
     }
 
     // Getter untuk nama
@@ -103,5 +105,13 @@ public class User {
 
     public void addSaldo(long amount){
         this.saldo += amount;
+    }
+
+    public void reduceSaldo(long amount){
+        this.saldo -= amount;
+    }
+
+    public DepeFoodPaymentSystem getPayment(){
+        return this.payment;
     }
 }

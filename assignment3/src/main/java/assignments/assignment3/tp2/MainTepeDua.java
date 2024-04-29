@@ -46,12 +46,12 @@ public class MainTepeDua {
                 String noTelp = input.nextLine();
 
                 // kondisi ketika data tidak ditemukan
-                if (!loginVerifier(nama, noTelp)) {
+                if (!loginVerifier(nama, noTelp, userList)) {
                     System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
                     continue;
                 }
 
-                User userLoggedIn = getUser(nama, noTelp);
+                User userLoggedIn = getUser(nama, noTelp, userList);
                 boolean isLoggedIn = true;
 
                 if(userLoggedIn.role == "Customer"){
@@ -100,7 +100,7 @@ public class MainTepeDua {
         System.out.println("\nTerima kasih telah menggunakan DepeFood ^___^");
     }
 
-    public static User getUser(String nama, String nomorTelepon){
+    public static User getUser(String nama, String nomorTelepon, ArrayList<User> userList){
         for (User user : userList) {
             if (user.getName().equals(nama)) {
                 if (user.getNotelpon().equals(nomorTelepon)) {
@@ -116,6 +116,10 @@ public class MainTepeDua {
         // Fungsi ketika customer ingin membuat pesanan
         System.out.println("--------------Buat Pesanan--------------");
 
+        if (restoList.isEmpty()) {
+            System.out.println("Resto masih kosong");
+            return;
+        }
 
         while (true) {
             // meminta nama Restoran
@@ -167,7 +171,7 @@ public class MainTepeDua {
             }
             
             // Deklarasi objek Order bedasarkan input sebelumnya
-            Order order = new Order(orderID, tanggalPemesanan, jumlahPesanan, selectedResto, selectedMenu, userLoggedIn);
+            Order order = new Order(orderID, tanggalPemesanan, (int) Order.ongkosKirim(userLoggedIn.getLokasi()), selectedResto, selectedMenu, userLoggedIn);
             // Menambahkan objek Order tadi ke dalam instance variable User
             userLoggedIn.addOrderHistory(order);
 
@@ -182,6 +186,11 @@ public class MainTepeDua {
     public static void handleCetakBill(User user){
         // Fungsi ini mencetak bill
         System.out.println("--------------Cetak Bill--------------");
+
+        if (user.getOrderHistory().isEmpty()) {
+            System.out.println("Belum ada order yang dilakukan oleh user!");
+            return;
+        }
 
         while (true) {
             // Meminta order ID
@@ -205,6 +214,12 @@ public class MainTepeDua {
     public static void handleLihatMenu(User user, ArrayList<Restaurant> restoList){
         // Fungsi ini mencetak menu dari restoran yang dipilih
         System.out.println("--------------Lihat Menu--------------");
+        
+        if (restoList.isEmpty()) {
+            System.out.println("Resto masih kosong");
+            return;
+        }
+        
         while (true) {
 
             // Meminta nama restoran
@@ -231,6 +246,12 @@ public class MainTepeDua {
     public static void handleUpdateStatusPesanan(User user){
         // Fungsi ini mengatur status pesanan 
         System.out.println("--------------Update Status Pesanan--------------");
+
+        if (user.getOrderHistory().isEmpty()) {
+            System.out.println("Belum ada order yang dilakukan oleh user!");
+            return;
+        }
+        
         while (true) {
 
             // Meminta orderID
@@ -319,7 +340,6 @@ public class MainTepeDua {
         }
         
         while (true) {
-
             // Meminta nama restoran
             System.out.print("Nama Restoran: ");
             String namaResto = input.nextLine();
@@ -402,7 +422,7 @@ public class MainTepeDua {
     }
 
 
-    public static boolean loginVerifier(String nama, String noTelpon) {
+    public static boolean loginVerifier(String nama, String noTelpon, ArrayList<User> userList) {
         // Fungsi ini mengembalikan boolean apakah input login user benar
         for (User user : userList) {
             if (user.getName().equals(nama)) {

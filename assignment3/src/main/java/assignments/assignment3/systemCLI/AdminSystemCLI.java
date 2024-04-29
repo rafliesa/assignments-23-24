@@ -1,14 +1,10 @@
 package assignments.assignment3.systemCLI;
-
-import java.util.Scanner;
-
 import assignments.assignment3.MainMenu;
 import assignments.assignment3.tp2.*;
 
-//TODO: Extends Abstract yang diberikan
+
 public class AdminSystemCLI extends UserSystemCLI{
 
-    //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     boolean handleMenu(int command){
         switch(command){
             case 1 -> MainTepeDua.handleTambahRestoran(MainMenu.restoList); 
@@ -19,7 +15,6 @@ public class AdminSystemCLI extends UserSystemCLI{
         return true;
     }
 
-    //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     void displayMenu() {
         System.out.println("\n--------------------------------------------");
         System.out.println("Pilih menu:");
