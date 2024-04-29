@@ -8,7 +8,7 @@ import java.util.Scanner;
 import assignments.assignment1.*;
 
 public class MainTepeDua {
-    private static final Scanner INPUT = new Scanner(System.in);
+    private static final Scanner input = new Scanner(System.in);
     private static ArrayList<Restaurant> restoList;
     private static ArrayList<User> userList;
 
@@ -29,8 +29,8 @@ public class MainTepeDua {
             startMenu();
 
             // Meminta input pilih menu
-            int command = INPUT.nextInt();
-            INPUT.nextLine();
+            int command = input.nextInt();
+            input.nextLine();
 
             if(command == 1){
                 // Kondisi jika 1, maka login
@@ -39,11 +39,11 @@ public class MainTepeDua {
 
                 // Meminta input nama
                 System.out.print("Nama: ");
-                String nama = INPUT.nextLine();
+                String nama = input.nextLine();
 
                 // Meminta input nomor telpon
                 System.out.print("Nomor Telepon: ");
-                String noTelp = INPUT.nextLine();
+                String noTelp = input.nextLine();
 
                 // kondisi ketika data tidak ditemukan
                 if (!loginVerifier(nama, noTelp, userList)) {
@@ -60,8 +60,8 @@ public class MainTepeDua {
 
                     while (isLoggedIn){
                         menuCustomer();
-                        int commandCust = INPUT.nextInt();
-                        INPUT.nextLine();
+                        int commandCust = input.nextInt();
+                        input.nextLine();
 
                         switch(commandCust){
                             case 1 -> handleBuatPesanan(userLoggedIn, restoList);
@@ -80,8 +80,8 @@ public class MainTepeDua {
                     
                     while (isLoggedIn){
                         menuAdmin();
-                        int commandAdmin = INPUT.nextInt();
-                        INPUT.nextLine();
+                        int commandAdmin = input.nextInt();
+                        input.nextLine();
 
                         switch(commandAdmin){
                             case 1 -> handleTambahRestoran(restoList);
@@ -124,7 +124,7 @@ public class MainTepeDua {
         while (true) {
             // meminta nama Restoran
             System.out.print("Nama Restoran: ");
-            String namaResto = INPUT.nextLine();
+            String namaResto = input.nextLine();
             
             // Kondisi ketika nama restoran tidak ada di sistem
             if (!restoExists(namaResto, restoList)) {
@@ -137,7 +137,7 @@ public class MainTepeDua {
 
             // Meminta input tanggal
             System.out.print("Tanggal Pemesanan(DD/MM/YYYY): ");
-            String tanggalPemesanan = INPUT.nextLine();
+            String tanggalPemesanan = input.nextLine();
 
             // Kondisi ketika tanggal tidak sesuai format
             if (!tanggalPemesanan.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
@@ -150,12 +150,12 @@ public class MainTepeDua {
 
             // Meminta input jumlah pesanan
             System.out.print("Jumlah Pesanan: ");
-            int jumlahPesanan = Integer.parseInt(INPUT.nextLine());
+            int jumlahPesanan = Integer.parseInt(input.nextLine());
 
             // Meminta input pesanan
             String[] selectedFood = new String[jumlahPesanan];
             for (int i = 0; i < jumlahPesanan; i++) {
-                selectedFood[i] = INPUT.nextLine();
+                selectedFood[i] = input.nextLine();
             }
             
             // Validasi input pesanan pesanan 
@@ -195,7 +195,7 @@ public class MainTepeDua {
         while (true) {
             // Meminta order ID
             System.out.print("Masukan Order ID: ");
-            String orderID = INPUT.nextLine();
+            String orderID = input.nextLine();
             
             // Validasi order
             if (!user.orderExist(orderID)) {
@@ -224,7 +224,7 @@ public class MainTepeDua {
 
             // Meminta nama restoran
             System.out.print("Nama Restoran: ");
-            String namaResto = INPUT.nextLine();
+            String namaResto = input.nextLine();
     
             // Kondisi ketika nama restoran yang diinput tidak ada pada sistem
             if (!restoExists(namaResto, restoList)) {
@@ -256,7 +256,7 @@ public class MainTepeDua {
 
             // Meminta orderID
             System.out.print("Order ID: ");
-            String orderID = INPUT.nextLine();
+            String orderID = input.nextLine();
             
             // Kondisi ketika OrderId tidak ditemukan
             if (!user.orderExist(orderID)) {
@@ -266,7 +266,7 @@ public class MainTepeDua {
 
             // Meminta input status pesanan yang akan diatur
             System.out.print("Status: ");
-            String statusOrder = INPUT.nextLine();
+            String statusOrder = input.nextLine();
             
             // Mengupdate status pesanan
             if (statusOrder.toLowerCase().equals("selesai")) {
@@ -285,7 +285,7 @@ public class MainTepeDua {
 
             // Meminta input nama
             System.out.print("Nama: ");
-            String nama = INPUT.nextLine();
+            String nama = input.nextLine();
 
             if (nama.length() < 4) {
                 System.out.println("Nama Restoran tidak valid!\n");
@@ -302,12 +302,12 @@ public class MainTepeDua {
     
             // Meminta input berupa jumlah makanan yang akan dibuat pada menu
             System.out.print("Jumlah makanan: ");
-            int jumlahMakanan = Integer.parseInt(INPUT.nextLine());
+            int jumlahMakanan = Integer.parseInt(input.nextLine());
     
             // Meminta input menu makanan, dengan format Nama makanan - Harga
             String[] menu = new String[jumlahMakanan];
             for (int i = 0; i < jumlahMakanan; i++) {
-                menu[i] = INPUT.nextLine();
+                menu[i] = input.nextLine();
             }
 
             // Validasi input menu makanan
@@ -342,7 +342,7 @@ public class MainTepeDua {
         while (true) {
             // Meminta nama restoran
             System.out.print("Nama Restoran: ");
-            String namaResto = INPUT.nextLine();
+            String namaResto = input.nextLine();
 
             // Kondisi ketika tidak ada resto pada list
             if (!restoExists(namaResto, restoList)) {

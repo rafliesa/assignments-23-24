@@ -2,6 +2,7 @@ package assignments.assignment3.systemCLI;
 
 import java.util.Scanner;
 
+// Kelas abstract untuk antarmuka admin atau kustomer
 public abstract class UserSystemCLI {
     protected static Scanner input = new Scanner(System.in);
     

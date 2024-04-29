@@ -2,7 +2,7 @@ package assignments.assignment3.systemCLI;
 import assignments.assignment3.MainMenu;
 import assignments.assignment3.tp2.*;
 
-
+// Kelas ini merepresentasikan antarmuka untuk user yang memiliki role admin
 public class AdminSystemCLI extends UserSystemCLI{
 
     boolean handleMenu(int command){

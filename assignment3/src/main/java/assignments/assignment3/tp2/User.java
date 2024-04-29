@@ -80,7 +80,7 @@ public class User {
         for (Order order : orderHistory) {
             if (order.getOrderId().equals(orderID)) {
                 return true;
-            }
+            } 
         }
         return false;
     }

@@ -7,5 +7,6 @@ import assignments.assignment3.tp2.*;
 */
  
 public interface DepeFoodPaymentSystem {
+    // logika untuk melakukan transaksi
     public abstract void processPayment(long amount, Order order);
 }
