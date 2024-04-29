@@ -22,6 +22,7 @@ public class Menu {
     }
 
     // Method toString() untuk merubah objek ini ke tipe String
+    @Override
     public String toString() {
         return String.format("%s %.0f", namaMakanan, harga);
     }

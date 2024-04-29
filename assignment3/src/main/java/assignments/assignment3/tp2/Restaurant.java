@@ -94,15 +94,7 @@ public class Restaurant {
         }
         return false;
     }
-
-    public long getSaldo(){
-        return this.saldo;
-    }
-
-    public void setSaldo(long amount){
-        this.saldo = amount;
-    }
-
+    
     public void addSaldo(long amount){
         this.saldo += amount;
     }

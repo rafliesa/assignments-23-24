@@ -24,6 +24,7 @@ public class Order {
         this.items = items;
         this.orderFinished = false;
         this.belongsTo = belongsTo;
+        this.totalBiaya = 0;
     }
 
     // Getter untuk orderID
@@ -85,6 +86,7 @@ public class Order {
         }
         System.out.printf("Biaya Ongkos Kirim: Rp %.0f%n", ongkosKirim(belongsTo.getLokasi()));
         totalBiaya += ongkosKirim(belongsTo.getLokasi());
+        this.totalBiaya = (long) totalBiaya;
 
         System.out.printf("Total Biaya: Rp %.0f ", totalBiaya);
     }

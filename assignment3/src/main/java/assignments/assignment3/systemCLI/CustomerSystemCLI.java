@@ -13,11 +13,11 @@ import assignments.assignment3.payment.DepeFoodPaymentSystem;
 public class CustomerSystemCLI extends UserSystemCLI {
     static Scanner input = new Scanner(System.in);
 
-    boolean handleMenu(int choice){
+    public boolean handleMenu(int choice){
         switch(choice){
             case 1 -> MainTepeDua.handleBuatPesanan(MainMenu.userLoggedIn, MainMenu.restoList); 
             case 2 -> MainTepeDua.handleCetakBill(MainMenu.userLoggedIn);
-            case 3 -> MainTepeDua.handleLihatMenu(MainMenu.userLoggedIn, MainMenu.restoList);
+            case 3 -> MainTepeDua.handleLihatMenu(MainMenu.restoList);
             case 4 -> handleBayarBill(MainMenu.userLoggedIn);
             case 5 -> handleCekSaldo(MainMenu.userLoggedIn);
             case 6 -> {
@@ -28,7 +28,7 @@ public class CustomerSystemCLI extends UserSystemCLI {
         return true;
     }
 
-    void displayMenu() {
+    public void displayMenu() {
         System.out.println("\n--------------------------------------------");
         System.out.println("Pilih menu:");
         System.out.println("1. Buat Pesanan");
@@ -90,11 +90,16 @@ public class CustomerSystemCLI extends UserSystemCLI {
         int paymentChoice;
         while (true) {
             paymentChoice = Integer.parseInt(input.nextLine());
+
+            // Kondisi ketika pemilihan metode pembayaran tidak konsisten dengan apa
+            // yang dimiliki oleh user
             if (paymentChoice == 1 && paymentMethod instanceof DebitPayment ||
                 paymentChoice == 2 && paymentMethod instanceof CreditCardPayment) {
                 System.out.println("User belum memiliki metode pembayaran ini!");
                 return;
             }
+
+            // Kondisi ketika user menginput selain 1 atau 2
             if (!(paymentChoice == 1 || paymentChoice == 2)) {
                 System.out.println("Mohon pilih opsi pembayaran yang valid!");
                 continue;
@@ -103,12 +108,15 @@ public class CustomerSystemCLI extends UserSystemCLI {
     
         }
 
+        // melakukan proses pembayaran
         paymentMethod.processPayment(totalHarga, order);
 
     }
 
-    void handleCekSaldo(User user){
-        long saldo = user.getSaldo();
+    public void handleCekSaldo(User user){
+        // method ini berfungsi untuk mengecek saldo
+
+        long saldo = user.getSaldo(); // gunakan getter untuk mengetahui saldo user
         System.out.println("Sisa saldo sebesar Rp" + saldo);
     }
 }
