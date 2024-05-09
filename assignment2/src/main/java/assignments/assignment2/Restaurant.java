@@ -1,109 +1,60 @@
 package assignments.assignment2;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Restaurant {
-    // Deklarasi instance variables
     private String nama;
-    private long saldo;
     private ArrayList<Menu> menu;
-    
-    // Constructor 
     public Restaurant(String nama){
         this.nama = nama;
-        this.saldo = 0;
-        this.menu = new ArrayList<Menu>();
+        this.menu = new ArrayList<>();
     }
     
-
-    
-    // Getter untuk nama 
-    public String getName() {
-        return this.nama;
+    public String getNama() {
+        return nama;
     }
-    
-    // Setter untuk menambah objek Menu ke ArrayList menu
-    public void addMenu(Menu obj) {
-        menu.add(obj);
+    public void addMenu(Menu newMenu){
+        menu.add(newMenu);
     }
-
-    // Getter untuk ArrayList menu
     public ArrayList<Menu> getMenu() {
-        return this.menu;
+        return menu;
     }
 
-
-    // Fungsi ini mengembalikan boolean apakah Menu yang dicari ada di dalam ArrayList menu
-    public boolean menuExist(String nama) {
-        for (Menu makanan : menu) {
-            if (makanan.getNamaMakanan().equals(nama)) {
-                return true;
-            }
+    private ArrayList<Menu> sortMenu(){
+        Menu[] menuArr = new Menu[menu.size()];
+        for(int i=0; i < menu.size();i++){
+            menuArr[i] = menu.get(i);
         }
-        return false;
-    }
-
-    // Fungsi ini mengembalikan menu yang memiliki nama yang sesuai dengan parameternya
-    public Menu selectMenu(String namaMakanan) {
-        for (Menu makanan : this.menu) {
-            if (makanan.getNamaMakanan().equals(namaMakanan)) {
-                return makanan;
-            }
-        }
-        return null;
-    }
-    
-    // Fungsi ini mencetak seluruh menu yang ada di ArrayList
-    public void cetakMenu() {
-        int count = 1;
-
-        sortMenu();
-        
-        System.out.print("Menu:");
-        for (Menu daftarMenu : menu) {
-            System.out.printf("%n%d. %s",count++, daftarMenu);
-        }
-    }
-
-    // Fungsi ini berfungsi untuk mensortir menu dari harga yang termurah
-    private void sortMenu() {
-
-        for (int i = 0; i < getMenu().size()-1; i++) {
-            for (int j = i; j < getMenu().size(); j++) {
-                Menu a = getMenu().get(i);
-                Menu b = getMenu().get(j);
-
-                if (a.getHarga() > b.getHarga()) {
-                    getMenu().set(i, b);
-                    getMenu().set(j, a);
-                } else if (a.getHarga() == b.getHarga() && compareString(a.getNamaMakanan(), b.getNamaMakanan())) {
-                    getMenu().set(i, b);
-                    getMenu().set(j, a);
+        int n = menuArr.length;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j < n-i-1; j++) {
+                if (menuArr[j].getHarga() > menuArr[j+1].getHarga()) {
+                    
+                    Menu temp = menuArr[j];
+                    menuArr[j] = menuArr[j+1];
+                    menuArr[j+1] = temp;
                 }
-
             }
         }
+        return new ArrayList<>(Arrays.asList(menuArr));
     }
-    
-    // Fungsi ini mengecek apakah string A > string B secara alfabet
-    public static boolean compareString(String a, String b) {
-        for (int i = 0; i < Math.min(a.length(), b.length()); i++) {
-            if (a.charAt(i) > b.charAt(i)) {
-                return true;
-            }
+    public String printMenu() {
+        StringBuilder menuString = new StringBuilder("Menu:\n");
+        DecimalFormat decimalFormat = new DecimalFormat();
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('\u0000');
+        decimalFormat.setDecimalFormatSymbols(symbols);
+        int menuNumber = 1;
+        for (Menu menuItem : sortMenu()) {
+            menuString.append(menuNumber).append(". ").append(menuItem.getNamaMakanan()).append(" ").append(decimalFormat.format(menuItem.getHarga())).append("\n");
+            menuNumber++;
         }
-        return false;
-    }
-
-    public long getSaldo(){
-        return this.saldo;
-    }
-
-    public void setSaldo(long amount){
-        this.saldo = amount;
-    }
-
-    public void addSaldo(long amount){
-        this.saldo += amount;
+        if (menuString.length() > 0) {
+            menuString.deleteCharAt(menuString.length() - 1);
+        }
+        return menuString.toString();
     }
 }

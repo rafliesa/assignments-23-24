@@ -1,105 +1,54 @@
 package assignments.assignment2;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User {
-    // Deklarasi instance variables
+    
     private String nama;
-    private String nomorTelpon;
+    private String nomorTelepon;
     private String email;
-    private String lokasi;
-    public String role;
     private ArrayList<Order> orderHistory;
-    private long saldo;
+    public String role;
 
-
-    // Constructor
+    private String lokasi;
     public User(String nama, String nomorTelepon, String email, String lokasi, String role){
         this.nama = nama;
-        this.nomorTelpon = nomorTelepon;
+        this.nomorTelepon = nomorTelepon;
         this.email = email;
         this.lokasi = lokasi;
         this.role = role;
-        this.orderHistory = new ArrayList<Order>();
+        orderHistory = new ArrayList<>();
     }
-
-    
-    // Constructor untuk tp3
-    public User(String nama, String nomorTelepon, String email, String lokasi, String role, long saldo){
-        this.nama = nama;
-        this.nomorTelpon = nomorTelepon;
-        this.email = email;
-        this.lokasi = lokasi;
-        this.role = role;
-        this.orderHistory = new ArrayList<Order>();
-        this.saldo = saldo;
-    }
-
-    // Getter untuk nama
-    public String getName() {
-        return this.nama;
-    }
-
-    // Getter untuk noTelpon
-    public String getNotelpon() {
-        return this.nomorTelpon;
-    }
-
-    // Getter untuk email
     public String getEmail() {
-        return this.email;
+        return email;
     }
-
-    // Getter untuk lokasi
+    public String getNama() {
+        return nama;
+    }
     public String getLokasi() {
-        return this.lokasi;
+        return lokasi;
     }
-
-    // Getter untuk role
-    public String getRole() {
-        return this.role;
+    public String getNomorTelepon() {
+        return nomorTelepon;
     }
-
-    // Getter untuk orderHistory
+    public void addOrderHistory(Order order){
+        orderHistory.add(order);
+    }
     public ArrayList<Order> getOrderHistory() {
-        return this.orderHistory;
+        return orderHistory;
     }
-
-    // Setter untuk menambah orderHistory
-    public void addOrderHistory(Order order) {
-        this.orderHistory.add(order);
-    }
-
-    // Mengembalikan boolean apakah order ada di orderHistory
-    public Boolean orderExist (String orderID) {
+    public boolean isOrderBelongsToUser(String orderId) {
         for (Order order : orderHistory) {
-            if (order.getOrderId().equals(orderID)) {
+            if (order.getOrderId().equals(orderId)) {
                 return true;
             }
         }
         return false;
     }
-
-    // Mengembalikan objek Order yang memiliki id sesuai dengan parameter
-    public Order getOrder (String orderID) {
-        for (Order order : orderHistory) {
-            if (order.getOrderId().equals(orderID)) {
-                return order;
-            }
-        }
-        return null;
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return String.format("User dengan nama %s dan nomor telepon %s", nama, nomorTelepon);
     }
 
-    public long getSaldo(){
-        return this.saldo;
-    }
-
-    public void setSaldo(long amount){
-        this.saldo = amount;
-    }
-
-    public void addSaldo(long amount){
-        this.saldo += amount;
-    }
 }

@@ -13,13 +13,11 @@ public class LoginManager {
         this.customerSystem = customerSystem;
     }
 
-    // fungsi ini berfungsi sebagai portal yang mengantarkan pengguna 
-    // ke antarmuka yang sesuai rolenya
-    public void getSystem(String role){
-        if(role == "Customer"){
-            customerSystem.run();
-        }else{
-            adminSystem.run();
+    public UserSystemCLI getSystem(String role) {
+        if (role.equals("Customer")) {
+            return customerSystem;
         }
+
+        return adminSystem;
     }
 }

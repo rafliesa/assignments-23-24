@@ -1,25 +1,26 @@
 package assignments.assignment3.systemCLI;
 
-import java.util.Scanner;
-import assignments.assignment3.tp2.MainTepeDua;
-import assignments.assignment3.tp2.User;
-import assignments.assignment3.tp2.Order;
-import assignments.assignment3.MainMenu;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
+
+import assignments.assignment1.OrderGenerator;
+import assignments.assignment3.Order;
+import assignments.assignment3.Restaurant;
 import assignments.assignment3.payment.CreditCardPayment;
-import assignments.assignment3.payment.DebitPayment;
 import assignments.assignment3.payment.DepeFoodPaymentSystem;
 
-// Kelas ini merepresentasikan antarmuka untuk user yang memiliki role customer
 public class CustomerSystemCLI extends UserSystemCLI {
-    static Scanner input = new Scanner(System.in);
 
-    public boolean handleMenu(int choice){
-        switch(choice){
-            case 1 -> MainTepeDua.handleBuatPesanan(MainMenu.userLoggedIn, MainMenu.restoList); 
-            case 2 -> MainTepeDua.handleCetakBill(MainMenu.userLoggedIn);
-            case 3 -> MainTepeDua.handleLihatMenu(MainMenu.restoList);
-            case 4 -> handleBayarBill(MainMenu.userLoggedIn);
-            case 5 -> handleCekSaldo(MainMenu.userLoggedIn);
+    @Override
+    boolean handleMenu(int choice) {
+        switch (choice) {
+            case 1 -> handleBuatPesanan();
+            case 2 -> handleCetakBill();
+            case 3 -> handleLihatMenu();
+            case 4 -> handleBayarBill();
+            case 5 -> handleCekSaldo();
             case 6 -> {
                 return false;
             }
@@ -28,7 +29,8 @@ public class CustomerSystemCLI extends UserSystemCLI {
         return true;
     }
 
-    public void displayMenu() {
+    @Override
+    void displayMenu() {
         System.out.println("\n--------------------------------------------");
         System.out.println("Pilih menu:");
         System.out.println("1. Buat Pesanan");
@@ -41,82 +43,165 @@ public class CustomerSystemCLI extends UserSystemCLI {
         System.out.print("Pilihan menu: ");
     }
 
-    public void handleBayarBill(User user){
-        // method ini berfungsi untuk melakukan proses pembayaran bill
+    private void handleBuatPesanan() {
+        System.out.println("--------------Buat Pesanan----------------");
+        while (true) {
+            System.out.print("Nama Restoran: ");
+            String restaurantName = input.nextLine().trim();
+            Restaurant restaurant = getRestaurantByName(restaurantName);
+            if (restaurant == null) {
+                System.out.println("Restoran tidak terdaftar pada sistem.\n");
+                continue;
+            }
 
-        DepeFoodPaymentSystem paymentMethod = user.getPayment();
-        Order order;
-        long totalHarga;
+            System.out.print("Tanggal Pemesanan (DD/MM/YYYY): ");
+            String tanggalPemesanan = input.nextLine().trim();
+            if (!OrderGenerator.validateDate(tanggalPemesanan)) {
+                System.out.println("Masukkan tanggal sesuai format (DD/MM/YYYY)");
+                System.out.println();
+                continue;
+            }
 
-        // Kondisi ketika user belum melakukan order
-        if (user.getOrderHistory().isEmpty()) {
-            System.out.println("Belum ada order yang dilakukan oleh user!");
+            System.out.print("Jumlah Pesanan: ");
+            int jumlahPesanan = Integer.parseInt(input.nextLine().trim());
+            System.out.println("Order: ");
+
+            List<String> listMenuPesananRequest = new ArrayList<>();
+
+            for (int i = 0; i < jumlahPesanan; i++) {
+                listMenuPesananRequest.add(input.nextLine().trim());
+            }
+
+            if (!validateRequestPesanan(restaurant, listMenuPesananRequest)) {
+                System.out.println("Mohon memesan menu yang tersedia di Restoran!");
+                continue;
+            }
+
+            Order order = new Order(
+                    OrderGenerator.generateOrderID(restaurantName, tanggalPemesanan, userLoggedIn.getNomorTelepon()),
+                    tanggalPemesanan,
+                    OrderGenerator.calculateDeliveryCost(userLoggedIn.getLokasi()),
+                    restaurant,
+                    getMenuRequest(restaurant, listMenuPesananRequest));
+
+            System.out.printf("Pesanan dengan ID %s diterima!", order.getOrderId());
+            userLoggedIn.addOrderHistory(order);
+            return;
+        }
+    }
+
+    private void handleCetakBill() {
+        System.out.println("--------------Cetak Bill----------------");
+        while (true) {
+            System.out.print("Masukkan Order ID: ");
+            String orderId = input.nextLine().trim();
+            Order order = getOrderOrNull(orderId);
+            if (order == null) {
+                System.out.println("Order ID tidak dapat ditemukan.\n");
+                continue;
+            }
+            System.out.println("");
+            System.out.print(outputBillPesanan(order));
             return;
         }
 
+    }
+
+    void handleLihatMenu() {
+        System.out.println("--------------Lihat Menu----------------");
         while (true) {
-            // Meminta order ID
-            System.out.print("Masukan Order ID: ");
-            String orderID = input.nextLine();
-            
-            // Validasi order
-            if (!user.orderExist(orderID)) {
-                System.out.println("Order ID tidak dapat ditemukan.");
+            System.out.print("Nama Restoran: ");
+            String restaurantName = input.nextLine().trim();
+            Restaurant restaurant = getRestaurantByName(restaurantName);
+            if (restaurant == null) {
+                System.out.println("Restoran tidak terdaftar pada sistem.\n");
+                continue;
+            }
+            System.out.print(restaurant.printMenu());
+            return;
+        }
+    }
+
+    void handleUpdateStatusPesanan(Order order) {
+        order.setOrderFinished(true);
+    }
+
+    void handleBayarBill() {
+        System.out.println("--------------Bayar Bill----------------");
+        while (true) {
+            System.out.print("Masukkan Order ID: ");
+            String orderId = input.nextLine().trim();
+
+            Order order = getOrderOrNull(orderId);
+
+            if (order == null) {
+                System.out.println("Order ID tidak dapat ditemukan.\n");
                 continue;
             }
 
-            order = user.getOrder(orderID);
-            totalHarga = order.getTotalBiaya();
-
-            // Kondisi ketika order sudah pernah dibayar sebelumnya
-            if (order.getStatus()) {
-                System.out.println("Pesanan dengan ID ini sudah lunas!");
+            if (order.getOrderFinished()) {
+                System.out.println("Pesanan dengan ID ini sudah lunas!\n");
                 return;
             }
 
-            // Cetak bill
-            System.out.println();
-            user.getOrder(orderID).cetakBill();
-            break;
-        }
+            System.out.println(outputBillPesanan(order));
 
-        // Meminta metode pembayaran
-        System.out.println("\n");
-        System.out.println("Opsi Pembayaran: ");
-        System.out.println("1. Credit Card");
-        System.out.println("2. Debit");
-        System.out.println("Pilihan Metode Pembayaran: ");
+            System.out.println("Opsi Pembayaran:");
+            System.out.println("1. Credit Card");
+            System.out.println("2. Debit");
 
-        int paymentChoice;
-        while (true) {
-            paymentChoice = Integer.parseInt(input.nextLine());
+            System.out.print("Pilihan Metode Pembayaran: ");
+            String paymentOption = input.nextLine().trim();
 
-            // Kondisi ketika pemilihan metode pembayaran tidak konsisten dengan apa
-            // yang dimiliki oleh user
-            if (paymentChoice == 1 && paymentMethod instanceof DebitPayment ||
-                paymentChoice == 2 && paymentMethod instanceof CreditCardPayment) {
-                System.out.println("User belum memiliki metode pembayaran ini!");
-                return;
-            }
-
-            // Kondisi ketika user menginput selain 1 atau 2
-            if (!(paymentChoice == 1 || paymentChoice == 2)) {
-                System.out.println("Mohon pilih opsi pembayaran yang valid!");
+            if (!paymentOption.equals("1") && !paymentOption.equals("2")) {
+                System.out.println("Pilihan tidak valid, silakan coba kembali\n");
                 continue;
-            } 
-            break;
-    
+            }
+
+            DepeFoodPaymentSystem paymentSystem = userLoggedIn.getPaymentSystem();
+
+            boolean isCreditCard = paymentSystem instanceof CreditCardPayment;
+
+            if ((isCreditCard && paymentOption.equals("2")) || (!isCreditCard && paymentOption.equals("1"))) {
+                System.out.println("User belum memiliki metode pembayaran ini!\n");
+                continue;
+            }
+
+            long amountToPay = 0;
+
+            try {
+                amountToPay = paymentSystem.processPayment(userLoggedIn.getSaldo(), (long) order.getTotalHarga());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.out.println();
+                continue;
+            }
+
+            long saldoLeft = userLoggedIn.getSaldo() - amountToPay;
+
+            userLoggedIn.setSaldo(saldoLeft);
+            handleUpdateStatusPesanan(order);
+
+            DecimalFormat decimalFormat = new DecimalFormat();
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            symbols.setGroupingSeparator('.');
+            decimalFormat.setDecimalFormatSymbols(symbols);
+
+            System.out.printf("Berhasil Membayar Bill sebesar Rp %s", decimalFormat.format(amountToPay));
+
+            return;
         }
-
-        // melakukan proses pembayaran
-        paymentMethod.processPayment(totalHarga, order);
-
     }
 
-    public void handleCekSaldo(User user){
-        // method ini berfungsi untuk mengecek saldo
+    void handleCekSaldo() {
+        System.out.println("--------------Cek Saldo----------------");
 
-        long saldo = user.getSaldo(); // gunakan getter untuk mengetahui saldo user
-        System.out.println("Sisa saldo sebesar Rp" + saldo);
+        DecimalFormat decimalFormat = new DecimalFormat();
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        decimalFormat.setDecimalFormatSymbols(symbols);
+
+        System.out.printf("Sisa saldo sebesar Rp %s", decimalFormat.format(userLoggedIn.getSaldo()));
     }
+
 }

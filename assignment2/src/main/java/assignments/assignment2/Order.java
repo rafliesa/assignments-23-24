@@ -5,106 +5,75 @@ import java.util.ArrayList;
 import assignments.assignment1.OrderGenerator;
 
 public class Order {
-    // Deklarasi instance variables
+
     private String orderId;
-    private String tanggalPemesanan;
-    private int biayaOngkosKirim;
+    private String tanggal;
+    private int ongkir;
     private Restaurant restaurant;
-    private ArrayList<Menu> items;
     private boolean orderFinished;
-    private User belongsTo;
-    
-    // Constructor
-    public Order(String orderId, String tanggal, int ongkir, Restaurant resto, ArrayList<Menu> items, User belongsTo){
+    private Menu[] items;
+
+    public Order(String orderId, String tanggal, int ongkir, Restaurant resto, Menu[] items) {
         this.orderId = orderId;
-        this.tanggalPemesanan = tanggal;
-        this.biayaOngkosKirim = ongkir;
+        this.tanggal = tanggal;
+        this.ongkir = ongkir;
         this.restaurant = resto;
-        this.items = items;
         this.orderFinished = false;
-        this.belongsTo = belongsTo;
+        this.items = items;
     }
 
-    // Getter untuk orderID
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public boolean getOrderFinished() {
+        return this.orderFinished;
+    }
+
+    public void setOrderFinished(boolean orderFinished) {
+        this.orderFinished = orderFinished;
+    }
+
     public String getOrderId() {
-        return this.orderId;
+        return orderId;
     }
 
-    // Getter untuk tanggal
     public String getTanggal() {
-        return this.tanggalPemesanan;
+        return tanggal;
     }
 
-    // Getter untuk ongkir
     public int getOngkir() {
-        return this.biayaOngkosKirim;
+        return ongkir;
     }
 
-    // Getter untuk restaurant
-    public Restaurant getResto() {
-        return this.restaurant;
+    public Menu[] getItems() {
+        return items;
     }
 
-    // Getter untuk menu
-    public ArrayList<Menu> getMenu() {
-        return this.items;
-    }
-
-    // Setter untuk status orderan
-    public void setStatus(Boolean ordered) {
-        if (Boolean.compare(this.orderFinished, ordered)!=0) {
-            System.out.printf("Status pesanan dengan ID %s berhasil diupdate!", getOrderId());
-        } else {
-            System.out.printf("Status pesanan dengan ID %s tidak berhasil diupdate!", getOrderId());
+    public Menu[] getSortedMenu() {
+        Menu[] menuArr = new Menu[getItems().length];
+        for (int i = 0; i < getItems().length; i++) {
+            menuArr[i] = getItems()[i];
         }
-        this.orderFinished = ordered;
-    }
-    
-    // Fungsi ini mencetak bill
-    public void cetakBill(){
-        // Mendeklarasikan total biaya
-        double totalBiaya = 0;
+        int n = menuArr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (menuArr[j].getHarga() > menuArr[j + 1].getHarga()) {
 
-        // Mengembalikan bill dalam bentuk String
-        System.out.println("Bill");
-        System.out.printf("Order ID: %s%n", this.orderId);
-        System.out.printf("Tanggal Pemesanan: %s%n", getTanggal());
-        System.out.printf("Restaurant: %s%n", this.restaurant.getName());
-        System.out.printf("Lokasi Pengiriman: %s%n", this.belongsTo.getLokasi());
-        System.out.print("Status pengiriman: ");
-        if (orderFinished) {
-            System.out.println("Finished");
-        } else {
-            System.out.println("Not Finished");
+                    Menu temp = menuArr[j];
+                    menuArr[j] = menuArr[j + 1];
+                    menuArr[j + 1] = temp;
+                }
+            }
         }
-        System.out.println("Pesanan:");
-        for (Menu menu : items) {
-            totalBiaya += menu.getHarga();
-            System.out.printf("- %s%n", menu);
-        }
-        System.out.printf("Biaya Ongkos Kirim: Rp %.0f%n", ongkosKirim(belongsTo.getLokasi()));
-        totalBiaya += ongkosKirim(belongsTo.getLokasi());
-
-        System.out.printf("Total Biaya: Rp %.0f ", totalBiaya);
+        return menuArr;
     }
 
-    // Fungsi ini mengembalikan biaya ongkos kirim sesuai dengan parameter
-    public static double ongkosKirim (String lokasi) {
-        // Fungsi ini mengembalikan ongkos kirim bedasarkan lokasi
-        // Jika lokasi tidak sesuai, akan mengembalikan "0.0"
-        Double biaya = 0.0;
-        if (lokasi.equals("P")) {
-            biaya = 10000.0;
-        } else if (lokasi.equals("U")) {
-            biaya = 20000.0;
-        } else if (lokasi.equals("T")) {
-            biaya = 35000.0;
-        } else if (lokasi.equals("S")) {
-            biaya = 40000.0;
-        } else if (lokasi.equals("B")) {
-            biaya = 60000.0;
+    public double getTotalHarga() {
+        double sum = 0;
+        for (Menu menu : getItems()) {
+            sum += menu.getHarga();
         }
-        return biaya;
+        return sum += getOngkir();
     }
-
 }
