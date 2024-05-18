@@ -34,10 +34,15 @@ public class MainApp extends Application {
         // Set the initial scene of the application to the login scene
         setScene(loginScene);
         window.show();
+
     }
 
-    public void setUser(User newUser) {
+    public static void setUser(User newUser) {
         user = newUser;
+    }
+
+    public static User getUser(){
+        return user;
     }
 
     // Method to set a scene

@@ -62,4 +62,13 @@ public class Restaurant {
         }
         return menuString.toString();
     }
+
+    public boolean menuExist(String namaMakanan){
+        for (Menu makanan : menu) {
+            if (makanan.getNamaMakanan().equalsIgnoreCase(namaMakanan)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

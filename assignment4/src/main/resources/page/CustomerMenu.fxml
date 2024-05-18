@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="149.0" layoutX="18.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 30; -fx-arc-width: 30;" width="367.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="415.0" layoutX="18.0" layoutY="173.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 30; -fx-arc-width: 30;" width="367.0" />
+        <Circle fill="#1f93ff00" layoutX="83.0" layoutY="77.0" radius="47.0" stroke="BLACK" strokeType="INSIDE" />
+        <Label layoutX="141.0" layoutY="41.0" prefHeight="21.0" prefWidth="94.0" style="-fx-font-size: 15;" text="USER" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="85.0" layoutX="34.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 25; -fx-arc-width: 25;" width="336.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="85.0" layoutX="34.0" layoutY="295.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 25; -fx-arc-width: 25;" width="336.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="85.0" layoutX="34.0" layoutY="390.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 25; -fx-arc-width: 25;" width="336.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="85.0" layoutX="34.0" layoutY="485.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 25; -fx-arc-width: 25;" width="336.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="21.0" layoutX="328.0" layoutY="132.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 20; -fx-arc-width: 20;" width="42.0" />
+    </children>
+</Pane>
+

@@ -1,5 +1,6 @@
 package assignments.assignment4.page;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,8 +9,12 @@ import assignments.assignment3.DepeFood;
 import assignments.assignment3.Restaurant;
 import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
+import assignments.assignment4.components.form.LoginController;
+import assignments.assignment4.page.controller.AdminController;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -27,7 +32,7 @@ public class AdminMenu extends MemberMenu{
     private Scene addRestaurantScene;
     private Scene addMenuScene;
     private Scene viewRestaurantsScene;
-    private List<Restaurant> restoList = new ArrayList<>();
+    private ArrayList<String> restoNameList = new ArrayList<String>();
     private MainApp mainApp; // Reference to MainApp instance
     private ComboBox<String> restaurantComboBox = new ComboBox<>();
     private ListView<String> menuItemsListView = new ListView<>();
@@ -71,25 +76,35 @@ public class AdminMenu extends MemberMenu{
     
         return new Scene(layout, 400, 600);
     }
-    
 
-    private void handleTambahRestoran(String nama) {
-        //TODO: Implementasi validasi isian nama Restoran
-        String validName = DepeFood.getValidRestaurantName(nama);
-        if (true) {
+    private Scene createAdminMenu(String location) {
+        try {
+            ClassLoader classloader = getClass().getClassLoader();
+            URL url = classloader.getResource(location);
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
 
-        } else {
+            AdminController controller = loader.<AdminController>getController();
 
+            controller.setMainApp(this.mainApp);
+            controller.setStage(this.stage);
+            controller.setAdminMenu(this);
+
+            stage.setScene(scene);
+            stage.show();
+            
+            return scene;
+
+        } catch (Exception e) {
+            return null;
         }
     }
+    public Scene getScene(String URL){
+        return this.createAdminMenu(URL);
+    }
 
-    private void handleTambahMenuRestoran(Restaurant restaurant, String itemName, double price) {
-        //TODO: Implementasi validasi isian menu Restoran
-        if (true) {
-
-        } else {
-
-
-        }
+    public String[] getRestoNameList(){
+        return this.restoNameList.toArray(new String[0]);
     }
 }

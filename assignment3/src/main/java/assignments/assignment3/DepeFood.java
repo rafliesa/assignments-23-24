@@ -120,6 +120,16 @@ public class DepeFood {
         return restoList;
     }
 
+    public static String[] getRestoNameList(){
+        ArrayList<String> namaResto = new ArrayList<>();
+        for (Restaurant restaurant : restoList) {
+            namaResto.add(restaurant.getNama());
+        }
+
+        return namaResto.toArray(new String[0]);
+
+    }
+
     public static Restaurant getRestaurantByName(String name) {
         Optional<Restaurant> restaurantMatched = restoList.stream()
                 .filter(restoran -> restoran.getNama().equalsIgnoreCase(name)).findFirst();

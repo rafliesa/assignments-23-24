@@ -58,10 +58,10 @@ public class MainMenu {
                         input.nextLine();
 
                         switch(commandCust){
-                            case 1 -> handleBuatPesanan(userLoggedIn, restoList);
-                            case 2 -> handleCetakBill(userLoggedIn);
-                            case 3 -> handleLihatMenu(userLoggedIn, restoList);
-                            case 4 -> handleUpdateStatusPesanan(userLoggedIn);
+                            case 1 -> handleBuatPesanan();
+                            case 2 -> handleCetakBill();
+                            case 3 -> handleLihatMenu();
+                            case 4 -> handleUpdateStatusPesanan();
                             case 5 -> isLoggedIn = false;
                             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
                         }
@@ -76,8 +76,8 @@ public class MainMenu {
                         input.nextLine();
 
                         switch(commandAdmin){
-                            case 1 -> handleTambahRestoran(restoList);
-                            case 2 -> handleHapusRestoran(restoList);
+                            case 1 -> handleTambahRestoran();
+                            case 2 -> handleHapusRestoran();
                             case 3 -> isLoggedIn = false;
                             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
                         }
@@ -425,17 +425,7 @@ public class MainMenu {
     }
 
 
-    public static boolean loginVerifier(String nama, String noTelpon) {
-        // Fungsi ini mengembalikan boolean apakah input login user benar
-        for (User user : userList) {
-            if (user.getName().equals(nama)) {
-                if (user.getNotelpon().equals(noTelpon)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
 
     public static String[] parseMenu(String str) {
         /* Fungsi ini mem-parse input menu yang berformat Makanan-Harga
@@ -461,52 +451,6 @@ public class MainMenu {
         result[1] = hargaMakanan;
         return result;
     }
-
-    public static boolean restoExists(String nama, ArrayList<Restaurant> restoList) {
-        // fungsi ini mengembalikan boolean apakah nama restaurant valid atau tidak
-        // jika nama restaurant sudah ada, maka akan dianggap tidak valid
-        for (Restaurant restaurant : restoList) {
-            if (restaurant.getName().equalsIgnoreCase(nama)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean menuValid(String[] menu) {
-        /* Fungsi ini mengembalikan boolean apakah input menu valid atau tidak
-         * fungsi ini mengecek apakah harga pada menu dalam bentuk angka atau tidak
-         */
-        for (String namaHarga : menu) {
-            String[] splitted = namaHarga.split(" ");
-            if (!splitted[splitted.length-1].matches("[0-9]*")) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static Restaurant restoSelector(String name, ArrayList<Restaurant> restoList) {
-        // Fungsi ini mengembalikan objek restoran yang memiliki nama sesuai dengan parameter
-        for (Restaurant restaurant : restoList) {
-            if (restaurant.getName().equals(name)) {
-                return restaurant;
-            }
-        }
-
-        return null;
-    }
-
-    public static boolean selectedMenuValid(String[] menu, Restaurant resto) {
-        // Fungsi ini mengembalikan boolean apakah menu yang dipilih user valid atau tidak
-        for (String makananSelected : menu) {
-            if (!resto.menuExist(makananSelected)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 
 
 }

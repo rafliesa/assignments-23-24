@@ -2,6 +2,7 @@ package assignments.assignment3;
 
 import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
+import assignments.assignment3.systemCLI.UserSystemCLI;
 
 // Kelas yang merepresentasikan login manager
 public class LoginManager {

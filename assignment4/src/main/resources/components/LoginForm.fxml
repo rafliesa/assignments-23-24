@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignments.assignment4.components.form.LoginController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="276.0" layoutX="62.0" layoutY="124.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 50; -fx-arc-width: 50;" width="277.0">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></Rectangle>
+      <Rectangle fx:id="usernameBox" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="34.0" layoutX="101.0" layoutY="206.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 50; -fx-arc-width: 25;" width="200.0">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></Rectangle>
+      <Rectangle fx:id="boxTelp" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="34.0" layoutX="102.0" layoutY="261.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 50; -fx-arc-width: 25;" width="200.0">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></Rectangle>
+      <PasswordField fx:id="notelpon" layoutX="112.0" layoutY="265.0" prefHeight="26.0" prefWidth="181.0" promptText="No Telp" style="-fx-background-color: transparent;">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></PasswordField>
+      <TextField fx:id="uname" layoutX="110.0" layoutY="211.0" prefHeight="26.0" prefWidth="182.0" promptText="Username" style="-fx-background-color: transparent;">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></TextField>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="34.0" layoutX="157.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 50; -fx-arc-width: 25; -fx-fill: transparent;" width="91.0">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></Rectangle>
+      <Button fx:id="login" alignment="CENTER" layoutX="159.0" layoutY="314.0" mnemonicParsing="false" onAction="#quitProgram" prefHeight="30.0" prefWidth="86.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="Login" textFill="#434343">
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis></Button>
+      <Label layoutX="159.0" layoutY="141.0" style="-fx-font-size: 35; -fx-background-color: transparent; -fx-font-family: Roboto; -fx-font: Robot;" text="Login" textAlignment="CENTER">
+         <font>
+            <Font name="Roboto" size="14.0" />
+         </font>
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis>
+      </Label>
+      <Label fx:id="wrongPassword" alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="355.0" prefHeight="17.0" prefWidth="263.0" style="-fx-text-fill: transparent;" text=" " />
+   </children>
+</Pane>
