@@ -56,13 +56,14 @@ public class LoginController{
         wrongPassword.setStyle("-fx-text-fill: transparent;");
 
         MainApp.setUser(userLoggedIn);
+        DepeFood.handleLogin(username, noTelp);
         
         if (MainApp.getUser().getRole().equals("Admin")) {
             AdminMenu adminMenu = new AdminMenu(stage, mainApp, userLoggedIn);
             mainApp.setScene(adminMenu.getScene("page/AdminMenu.fxml"));
         } else{
             CustomerMenu customerMenu = new CustomerMenu(stage, mainApp, userLoggedIn);
-            stage.setScene(customerMenu.getScene());
+            mainApp.setScene(customerMenu.getScene("page/CustomerMenu.fxml"));
         }
 
     }

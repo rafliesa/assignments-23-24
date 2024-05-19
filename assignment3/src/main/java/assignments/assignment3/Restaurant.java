@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Restaurant {
     private String nama;
@@ -71,4 +73,22 @@ public class Restaurant {
         }
         return false;
     }
+
+    public String[] getMenuName(){
+        ArrayList<String> menuName = new ArrayList<String>();
+        for (Menu namaMakanan : menu) {
+            menuName.add(namaMakanan.getNamaMakanan());
+        }
+        return menuName.toArray(new String[0]);
+    }
+
+    public Menu getMenuByName(String name) {
+        Optional<Menu> menuMatched = menu.stream()
+                .filter(menu -> menu.getNamaMakanan().equalsIgnoreCase(name)).findFirst();
+        if (menuMatched.isPresent()) {
+            return menuMatched.get();
+        }
+        return null;
+    }
+
 }

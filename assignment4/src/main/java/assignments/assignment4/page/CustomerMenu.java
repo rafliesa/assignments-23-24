@@ -16,6 +16,8 @@ import assignments.assignment3.Restaurant;
 import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.components.BillPrinter;
+import assignments.assignment4.page.controller.AdminController;
+import assignments.assignment4.page.controller.CustomerController;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -104,15 +106,21 @@ public class CustomerMenu extends MemberMenu{
         }
     }
 
-        private Scene createCustomerMenu() {
+        private Scene createCustomerMenu(String location) {
 
         try {
             ClassLoader classloader = getClass().getClassLoader();
-            URL url = classloader.getResource("page/CustomerMenu.fxml");
+            URL url = classloader.getResource(location);
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
+            CustomerController controller = loader.<CustomerController>getController();
+
+            controller.setMainApp(this.mainApp);
+            controller.setStage(this.stage);
+            controller.setCustomerMenu(this);
+            
             System.out.println(url);
             stage.setScene(scene);
             stage.show();
@@ -120,12 +128,11 @@ public class CustomerMenu extends MemberMenu{
             return scene;
 
         } catch (Exception e) {
-            System.out.println("gAADA");
             return null;
         }
     }
 
-    public Scene getScene(){
-        return createCustomerMenu();
+    public Scene getScene(String location){
+        return createCustomerMenu(location);
     }
 }

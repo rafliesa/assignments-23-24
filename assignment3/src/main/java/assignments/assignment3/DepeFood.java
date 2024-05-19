@@ -273,7 +273,55 @@ public class DepeFood {
         userLoggedIn = user;
     }
 
+    public static String cetakBill(Order order){
+        // Mendeklarasikan total biaya
+        double totalBiaya = 0;
+        String bill = new String();
 
+        // Mengembalikan bill dalam bentuk String
+        String header = String.format("Bill");
+        String id = String.format("%nOrder ID: %s%n", order.getOrderId());
+        String tanggal = String.format("Tanggal Pemesanan: %s%n", order.getTanggal());
+        String resto = String.format("Restaurant: %s%n", order.getRestaurant().getNama());
+        String lokasi = String.format("Lokasi Pengiriman: %s%n", userLoggedIn.getLokasi());
+        String status = String.format("Status pengiriman: ");
+        String finished;
+        if (order.getOrderFinished()) {
+            finished = "Finished\n";
+        } else {
+            finished = "Not Finished\n";
+        }
+        bill += header + id + tanggal + resto + lokasi + status + finished;
+        bill += ("Pesanan:\n");
+        for (Menu menu : order.getItems()) {
+            totalBiaya += menu.getHarga();
+            bill += String.format("-%s Rp%.0f %n", menu.getNamaMakanan(), menu.getHarga());
+        }
+        bill += String.format("Biaya Ongkos Kirim: Rp %.0f%n", ongkosKirim(userLoggedIn.getLokasi()));
+        totalBiaya += ongkosKirim(userLoggedIn.getLokasi());
+
+        bill += String.format("Total Biaya: Rp %.0f ", totalBiaya);
+
+        return bill;
+    }
+
+    public static double ongkosKirim (String lokasi) {
+        // Fungsi ini mengembalikan ongkos kirim bedasarkan lokasi
+        // Jika lokasi tidak sesuai, akan mengembalikan "0.0"
+        Double biaya = 0.0;
+        if (lokasi.equals("P")) {
+            biaya = 10000.0;
+        } else if (lokasi.equals("U")) {
+            biaya = 20000.0;
+        } else if (lokasi.equals("T")) {
+            biaya = 35000.0;
+        } else if (lokasi.equals("S")) {
+            biaya = 40000.0;
+        } else if (lokasi.equals("B")) {
+            biaya = 60000.0;
+        }
+        return biaya;
+    }
 
 
     

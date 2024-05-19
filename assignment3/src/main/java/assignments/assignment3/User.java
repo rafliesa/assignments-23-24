@@ -83,4 +83,15 @@ public class User {
         return String.format("User dengan nama %s dan nomor telepon %s", nama, nomorTelepon);
     }
 
+    public String[] getOrderString(){
+        ArrayList<String> orderString = new ArrayList<>();
+        for (Order order : orderHistory) {
+            orderString.add(order.getOrderId());
+        }
+        return orderString.toArray(new String[0]);
+
+    }
+
+    
+
 }
