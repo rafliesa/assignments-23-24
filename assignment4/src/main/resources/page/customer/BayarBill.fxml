@@ -13,7 +13,7 @@
       <Rectangle fx:id="rectangleCetakBill" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="50.0" layoutX="17.0" layoutY="496.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 25; -fx-arc-width: 25;" width="159.0" />
       <Button fx:id="payWithDebit" layoutX="17.0" layoutY="496.0" mnemonicParsing="false" onAction="#payWithDebit" prefHeight="50.0" prefWidth="159.0" style="-fx-background-color: transparent;" text="Bayar Dengan Debit" />
       <Label fx:id="labelBill" alignment="CENTER" layoutX="43.0" layoutY="93.0" prefHeight="354.0" prefWidth="317.0" style="visibility: false; -fx-font-size: 14;" />
-      <ListView fx:id="listOrder" layoutX="34.0" layoutY="109.0" prefHeight="326.0" prefWidth="336.0" style="-fx-background-color: transparent; visibility: true;" />
+      <ListView fx:id="listOrderNotFinished" layoutX="34.0" layoutY="109.0" prefHeight="326.0" prefWidth="336.0" style="-fx-background-color: transparent; visibility: true;" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="21.0" layoutX="22.0" layoutY="563.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 20; -fx-arc-width: 20;" width="42.0" />
       <Button fx:id="back" layoutY="546.0" mnemonicParsing="false" onAction="#back" prefHeight="54.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Back" />
       <Rectangle fx:id="rectangleCetakBill1" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="50.0" layoutX="225.0" layoutY="496.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 25; -fx-arc-width: 25;" width="159.0" />

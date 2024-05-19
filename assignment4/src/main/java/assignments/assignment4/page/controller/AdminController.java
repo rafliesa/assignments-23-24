@@ -73,6 +73,12 @@ public class AdminController {
     }
 
     public void switchToAddMenu(){
+        if (restoList.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Resto masih kosong :(, Tambah dulu yuk!");
+            alert.showAndWait();
+            return;
+        }
         mainApp.setScene(adminMenu.getScene("page/admin/TambahMenu.fxml"));
     }
     
@@ -106,15 +112,21 @@ public class AdminController {
             alert.setHeaderText("Menu Berhasil Ditambahkan!");
             alert.showAndWait();
 
-        } catch (Exception e) {
+        } catch (Exception nulException) {
             alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Mohon Masukkan Harga Berupa Angka!");
+            alert.setHeaderText("Mohon Perhatikan Masukkan Anda!");
             alert.showAndWait();
-        }
+        } 
 
     }
 
     public void switchToLihatMenu(){
+        if (restoList.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Resto masih kosong :(, Tambah dulu yuk!");
+            alert.showAndWait();
+            return;
+        }
         mainApp.setScene(adminMenu.getScene("page/admin/LihatMenu.fxml"));
     }
 

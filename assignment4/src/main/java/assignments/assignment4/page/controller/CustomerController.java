@@ -34,6 +34,7 @@ public class CustomerController {
 
     public ObservableList<String> restoList = FXCollections.observableArrayList(DepeFood.getRestoNameList());
     public ObservableList<String> orders = FXCollections.observableArrayList(DepeFood.getUserLoggedIn().getOrderString());
+    public ObservableList<String> notFinishedOrder = FXCollections.observableArrayList(DepeFood.getUserLoggedIn().getNotFinishedOrderString());
 
     public Button back;
 
@@ -55,6 +56,7 @@ public class CustomerController {
     public Label labelBill;
     public Rectangle rectangleCetakBill;
 
+    public ListView<String> listOrderNotFinished = new ListView<>();
     public Button payWithCreditCard;
     public Button payWithDebit;
 
@@ -66,6 +68,7 @@ public class CustomerController {
         
         comboBoxResto.setItems(restoList);
         listOrder.setItems(orders);
+        listOrderNotFinished.setItems(notFinishedOrder);
     }
 
     public void setMainApp(MainApp mainApp){
@@ -81,6 +84,12 @@ public class CustomerController {
     }
 
     public void switchToBuatPesanan(){
+        if (restoList.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Resto masih kosong :(\nMohon tunggu update dari admin ya!");
+            alert.showAndWait();
+            return;
+        }
         mainApp.setScene(customerMenu.getScene("page/customer/BuatPesanan.fxml"));
     }
 
@@ -94,8 +103,26 @@ public class CustomerController {
 
     public void pesan(){
         ObservableList<String> selectedItems = listMenu.getSelectionModel().getSelectedItems();
+        if (selectedItems.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Mohon Pilih Menu!");
+            alert.showAndWait();
+            return;
+        }
+        if (tanggal.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Mohon Pilih Tanggal!");
+            alert.showAndWait();
+            return;
+        }
+
         String date = tanggal.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         DepeFood.handleBuatPesanan(comboBoxResto.getValue(),date, selectedItems.size(), selectedItems);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Pesanan Berhasil Dibuat!");
+        alert.showAndWait();
+        return;
 
     }
 
@@ -104,12 +131,25 @@ public class CustomerController {
     }
 
     public void switchToCetakBill(){
+        if (DepeFood.getUserLoggedIn().getOrderHistory().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Kamu belum memiliki order nih, buat dulu yuk!");
+            alert.showAndWait();
+            return;
+        }
         mainApp.setScene(customerMenu.getScene("page/customer/CetakBill.fxml"));
     }
 
     public void cetakBill(){
         String orderID = listOrder.getSelectionModel().getSelectedItem();
         Order order = DepeFood.getOrderOrNull(orderID);
+        if (order == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("DepeFood");
+            alert.setHeaderText("Mohon Pilih Order ID!");
+            alert.showAndWait();
+            return;
+        }
         String bill = DepeFood.cetakBill(order);
         listOrder.setVisible(false);
         cetakBill.setVisible(false);
@@ -119,12 +159,27 @@ public class CustomerController {
     }
 
     public void switchToBayarBill(){
+        if (notFinishedOrder.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Kamu belum memiliki order yang belum dibayar nih, buat dulu yuk!");
+            alert.showAndWait();
+            return;
+        }
         mainApp.setScene(customerMenu.getScene("page/customer/BayarBill.fxml"));
     }
 
     public void payWithCreditCard(){
-        String orderID = listOrder.getSelectionModel().getSelectedItem();
+        String orderID = listOrderNotFinished.getSelectionModel().getSelectedItem();
         Order order = DepeFood.getOrderOrNull(orderID);
+
+        if (order == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("DepeFood");
+            alert.setHeaderText("Mohon Pilih Order ID!");
+            alert.showAndWait();
+            return;
+        }
+
         if (!DepeFood.getUserLoggedIn().getPaymentSystem().getClass().getSimpleName().equals("CreditCardPayment")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("DepeFood");
@@ -136,15 +191,26 @@ public class CustomerController {
         DepeFood.handleBayarBill(orderID, "Credit Card");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String berhasil = String.format("Berhasil Bembayar Bill sebesar Rp%.0f dengan biaya transaksi sebesar Rp%.0f", order.getTotalHarga(), order.getTotalHarga()*0.02);
+
+        notFinishedOrder = FXCollections.observableArrayList(DepeFood.getUserLoggedIn().getNotFinishedOrderString());
+        listOrderNotFinished.setItems(notFinishedOrder);
+
         alert.setTitle("DepeFood");
         alert.setHeaderText(berhasil);
         alert.showAndWait();
-        return;
     }
 
     public void payWithDebit(){
-        String orderID = listOrder.getSelectionModel().getSelectedItem();
+        String orderID = listOrderNotFinished.getSelectionModel().getSelectedItem();
         Order order = DepeFood.getOrderOrNull(orderID);
+        if (order == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("DepeFood");
+            alert.setHeaderText("Mohon Pilih Order ID!");
+            alert.showAndWait();
+            return;
+        }
+
         if (DepeFood.getUserLoggedIn().getPaymentSystem().getClass().getSimpleName().equals("CreditCardPayment")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("DepeFood");
@@ -164,9 +230,13 @@ public class CustomerController {
         DepeFood.handleBayarBill(orderID, "Debit");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String berhasil = String.format("Berhasil Bembayar Bill sebesar Rp%.0f.", order.getTotalHarga());
+
         alert.setTitle("DepeFood");
         alert.setHeaderText(berhasil);
         alert.showAndWait();
+
+        notFinishedOrder = FXCollections.observableArrayList(DepeFood.getUserLoggedIn().getNotFinishedOrderString());
+        listOrderNotFinished.setItems(notFinishedOrder);
     }
     
     public void logout(){

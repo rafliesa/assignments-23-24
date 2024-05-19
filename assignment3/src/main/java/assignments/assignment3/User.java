@@ -92,6 +92,16 @@ public class User {
 
     }
 
+    public String[] getNotFinishedOrderString(){
+        ArrayList<String> orderString = new ArrayList<>();
+        for (Order order : orderHistory) {
+            if (!order.getOrderFinished()) {
+                orderString.add(order.getOrderId());
+            }
+        }
+        return orderString.toArray(new String[0]);
+
+    }
     
 
 }
