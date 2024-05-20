@@ -4,10 +4,6 @@ import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -22,18 +18,25 @@ public class LoginController{
     public Rectangle boxTelp;
     public Label wrongPassword;
 
-    public void quitProgram(){
+    // Event handler ketika user menekan tombol login
+    public void login(){
 
+        // mengambil username dan no telpon user dari textfieldnya masing-masing
         String username = uname.getText();
         String noTelp = notelpon.getText();
 
+        // Mengambil Objek user yang sesuai dengan informasi login tersebut jika ada
+        // jika tidak sesuai maka objek berikut akan bernilai null
         User userLoggedIn = DepeFood.getUser(username, noTelp);
 
+        // kondisi ketika username dan no telpon salah, objek userLoggedIn bernilai null
         if (userLoggedIn == null) {
+
+            // mengatur gaya box username dan no telpon
             usernameBox.setStyle("-fx-fill: rgba(255, 0, 0, 0.09);-fx-arc-height: 50; -fx-arc-width: 25;");
             boxTelp.setStyle("-fx-fill: rgba(255, 0, 0, 0.09);-fx-arc-height: 50; -fx-arc-width: 25;");
 
-            // Validasi
+            // validasi
             if (username.isEmpty()){
                 wrongPassword.setText("Mohon isi Username");
             } else if (noTelp.isEmpty()) {
@@ -44,6 +47,7 @@ public class LoginController{
                 wrongPassword.setText("Password atau Nomor Telpon Salah!");
             }
             wrongPassword.setStyle("-fx-text-fill: red;");
+
             return;
         } 
 
@@ -55,9 +59,13 @@ public class LoginController{
         wrongPassword.setText("");
         wrongPassword.setStyle("-fx-text-fill: transparent;");
 
+        // kita set user sesuai dengan objek userLoggedIn
         MainApp.setUser(userLoggedIn);
+        // Melakukan login pada kelas DepeFood yang ada di tp3
         DepeFood.handleLogin(username, noTelp);
         
+        // Percabangan sesuai dengan role masing-masing user
+        // akan pergi ke scene atau menunya masing-masing
         if (MainApp.getUser().getRole().equals("Admin")) {
             AdminMenu adminMenu = new AdminMenu(stage, mainApp, userLoggedIn);
             mainApp.setScene(adminMenu.getScene("page/AdminMenu.fxml"));
@@ -68,6 +76,8 @@ public class LoginController{
 
     }
 
+    // kedua fungsi ini berfungsi untuk memberikan objek mainApp dan stage dari kelas
+    // loginForm
     public void setMainApp(MainApp mainApp){
         this.mainApp = mainApp;
     }

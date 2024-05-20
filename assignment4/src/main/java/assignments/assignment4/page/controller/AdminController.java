@@ -1,50 +1,64 @@
 package assignments.assignment4.page.controller;
-import java.util.ResourceBundle;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-
 import assignments.assignment3.Restaurant;
 import assignments.assignment3.DepeFood;
-import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.page.AdminMenu;
-import assignments.assignment4.page.CustomerMenu;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.net.URL;
 
 public class AdminController {
     public MainApp mainApp;
     public Stage stage;
+    public AdminMenu adminMenu;
+
+    // Komponen general
+    public Button back;
+
+    // Button yang ada pada menu awal
     public Button logout;
     public Button tambahRestoran;
     public Button tambahMenu;
     public Button lihatDaftar;
+
+    // Komponen yang ada ketika mendaftarkan resto
     public Button buatResto;
     public TextField buatNamaResto;
-    public Label daftarMenuMakanan;
-    public AdminMenu adminMenu;
-    public Button back;
 
 
+    // Komponen yang ada ketika menambahkan menu dan melihat daftar resto
     public ObservableList<String> restoList = FXCollections.observableArrayList(DepeFood.getRestoNameList());
-    public ComboBox<String> comboBox = new ComboBox<>();
+    public ComboBox<String> comboBox = new ComboBox<>(); // combobox untuk restoList
+
+    // Komponen yang ada ketika menambahkan menu
     public TextField namaMakanan;
     public TextField hargaMakanan;
     public Button tambah;
+    
+    // Komponen yang ada ketika melihat daftar resto
+    public Label daftarMenuMakanan;
+
+    // Fungsi-fungsi berikut memungkinkan kelas ini berinteraksi dengan 
+    // kelas AdminMenu
+
+    public void setMainApp(MainApp mainApp){
+        this.mainApp = mainApp;
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
+    }
+
+    public void setAdminMenu(AdminMenu adminMenu){
+        this.adminMenu = adminMenu;
+    }
 
 
     public void initialize() {
         comboBox.setItems(restoList);
 }
+
     public void switchToAddResto(){
         mainApp.setScene(adminMenu.getScene("page/admin/TambahRestorant.fxml"));
     }   
@@ -52,6 +66,7 @@ public class AdminController {
     public void addResto(){
         Alert alert;
         String namaResto = buatNamaResto.getText();
+
         if (DepeFood.findRestaurant(namaResto) == null && namaResto.length() >= 4) {
             DepeFood.handleTambahRestoran(namaResto);
             alert = new Alert(Alert.AlertType.INFORMATION);
@@ -130,6 +145,12 @@ public class AdminController {
         mainApp.setScene(adminMenu.getScene("page/admin/LihatMenu.fxml"));
     }
 
+    public void cetakMenu(){
+        Restaurant resto = DepeFood.getRestaurantByName(comboBox.getValue());
+        daftarMenuMakanan.setText(resto.printMenu());
+    }
+
+
     public void quitProgram(){
         mainApp.logout();
     }
@@ -138,21 +159,6 @@ public class AdminController {
         mainApp.setScene(adminMenu.getScene("page/AdminMenu.fxml"));
     }
 
-    public void setMainApp(MainApp mainApp){
-        this.mainApp = mainApp;
-    }
 
-    public void setStage(Stage stage){
-        this.stage = stage;
-    }
-
-    public void setAdminMenu(AdminMenu adminMenu){
-        this.adminMenu = adminMenu;
-    }
-
-    public void cetakMenu(){
-        Restaurant resto = DepeFood.getRestaurantByName(comboBox.getValue());
-        daftarMenuMakanan.setText(resto.printMenu());
-    }
 
 }

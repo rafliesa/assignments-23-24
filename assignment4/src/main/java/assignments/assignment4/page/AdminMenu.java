@@ -34,48 +34,13 @@ public class AdminMenu extends MemberMenu{
     private Scene viewRestaurantsScene;
     private ArrayList<String> restoNameList = new ArrayList<String>();
     private MainApp mainApp; // Reference to MainApp instance
-    private ComboBox<String> restaurantComboBox = new ComboBox<>();
-    private ListView<String> menuItemsListView = new ListView<>();
 
     public AdminMenu(Stage stage, MainApp mainApp, User user) {
         this.stage = stage;
         this.mainApp = mainApp;
         this.user = user; // Store the user
-        this.scene = createBaseMenu();
-        this.addRestaurantScene = createAddRestaurantForm();
-        this.addMenuScene = createAddMenuForm();
-        this.viewRestaurantsScene = createViewRestaurantsForm();
     }
 
-    @Override
-    public Scene createBaseMenu() {
-        // TODO: Implementasikan method ini untuk menampilkan menu untuk Admin
-        VBox menuLayout = new VBox(10);
-
-        return new Scene(menuLayout, 400, 600);
-    }
-
-    private Scene createAddRestaurantForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page tambah restoran
-        VBox layout = new VBox(10);
-
-        return new Scene(layout, 400, 600);
-    }
-
-    private Scene createAddMenuForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page tambah menu restoran
-        VBox layout = new VBox(10);
-    
-        return new Scene(layout, 400, 600);
-    }
-    
-    
-    private Scene createViewRestaurantsForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page daftar restoran
-        VBox layout = new VBox(10);
-    
-        return new Scene(layout, 400, 600);
-    }
 
     private Scene createAdminMenu(String location) {
         try {

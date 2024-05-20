@@ -1,19 +1,16 @@
+// i dont think i use this class :skull:
+// i dont think i use this class :skull:
+// i dont think i use this class :skull:
+// i dont think i use this class :skull:
+// i dont think i use this class :skull:
+// implementasinya bebas kan kak :>
 package assignments.assignment4.components;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import assignments.assignment3.DepeFood;
-import assignments.assignment3.Menu;
-import assignments.assignment3.Order;
 import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
 

@@ -1,27 +1,15 @@
 package assignments.assignment4.page.controller;
-import java.util.ResourceBundle;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 
 import assignments.assignment3.Restaurant;
 import assignments.assignment3.DepeFood;
-import assignments.assignment3.User;
 import assignments.assignment3.Order;
-import assignments.assignment3.Menu;
 import assignments.assignment4.MainApp;
-import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.net.URL;
 import java.time.format.DateTimeFormatter;
 
 public class CustomerController {
@@ -60,17 +48,8 @@ public class CustomerController {
     public Button payWithCreditCard;
     public Button payWithDebit;
 
-
-    public void initialize() {
-        try {
-            labelUser.setText("Selamat datang, "+ DepeFood.getUserLoggedIn().getNama());
-        } catch (Exception e) {}
-        
-        comboBoxResto.setItems(restoList);
-        listOrder.setItems(orders);
-        listOrderNotFinished.setItems(notFinishedOrder);
-    }
-
+    // Fungsi-fungsi berikut memungkinkan kelas ini berinteraksi dengan 
+    // kelas CustomerMenu
     public void setMainApp(MainApp mainApp){
         this.mainApp = mainApp;
     }
@@ -82,7 +61,19 @@ public class CustomerController {
     public void setCustomerMenu(CustomerMenu customerMenu){
         this.customerMenu = customerMenu;
     }
+    
+    // Hal yang perlu diinisiasi ketika launch scene
+    public void initialize() {
+        try {
+            labelUser.setText("Selamat datang, "+ DepeFood.getUserLoggedIn().getNama());
+        } catch (Exception e) {}
+        
+        comboBoxResto.setItems(restoList);
+        listOrder.setItems(orders);
+        listOrderNotFinished.setItems(notFinishedOrder);
+    }
 
+    // fungsi-fungsi berikut dipakai untuk membuat pesanan
     public void switchToBuatPesanan(){
         if (restoList.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -125,11 +116,9 @@ public class CustomerController {
         return;
 
     }
+/////////////////////////////////////////////////
 
-    public void back(){
-        mainApp.setScene(customerMenu.getScene("page/CustomerMenu.fxml"));
-    }
-
+    // Fungsi-fungsi berikut digunakan untuk mencetak bill
     public void switchToCetakBill(){
         if (DepeFood.getUserLoggedIn().getOrderHistory().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -157,7 +146,10 @@ public class CustomerController {
         labelBill.setVisible(true);
         labelBill.setText(bill);
     }
+/////////////////////////
 
+
+    // Fungsi-fungsi berikut digunakan untuk membayar bill
     public void switchToBayarBill(){
         if (notFinishedOrder.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -238,7 +230,12 @@ public class CustomerController {
         notFinishedOrder = FXCollections.observableArrayList(DepeFood.getUserLoggedIn().getNotFinishedOrderString());
         listOrderNotFinished.setItems(notFinishedOrder);
     }
-    
+//////////////////
+
+    public void back(){
+        mainApp.setScene(customerMenu.getScene("page/CustomerMenu.fxml"));
+    }
+
     public void logout(){
         mainApp.logout();
     }

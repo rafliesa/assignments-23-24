@@ -27,16 +27,7 @@ import java.util.stream.Collectors;
 
 public class CustomerMenu extends MemberMenu{
     private Stage stage;
-    private Scene scene;
-    private Scene addOrderScene;
-    private Scene printBillScene;
-    private Scene payBillScene;
-    private Scene cekSaldoScene;
-    private BillPrinter billPrinter; // Instance of BillPrinter
-    private ComboBox<String> restaurantComboBox = new ComboBox<>();
-    private static Label label = new Label();
     private MainApp mainApp;
-    private List<Restaurant> restoList = new ArrayList<>();
     private User user;
 
 
@@ -44,70 +35,10 @@ public class CustomerMenu extends MemberMenu{
         this.stage = stage;
         this.mainApp = mainApp;
         this.user = user; // Store the user
-        this.scene = createBaseMenu();
-        this.addOrderScene = createTambahPesananForm();
-        this.billPrinter = new BillPrinter(stage, mainApp, this.user); // Pass user to BillPrinter constructor
-        this.printBillScene = createBillPrinter();
-        this.payBillScene = createBayarBillForm();
-        this.cekSaldoScene = createCekSaldoScene();
-    }
-
-    @Override
-    public Scene createBaseMenu() {
-        // TODO: Implementasikan method ini untuk menampilkan menu untuk Customer
-        VBox menuLayout = new VBox(10);
-
-        return new Scene(menuLayout, 400, 600);
-    }
-
-    private Scene createTambahPesananForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page tambah pesanan
-        VBox menuLayout = new VBox(10);
-    
-        return new Scene(menuLayout, 400, 600);
-    }
-
-    private Scene createBillPrinter(){
-        // TODO: Implementasikan method ini untuk menampilkan page cetak bill
-
-        return null;
-    }
-
-    private Scene createBayarBillForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page bayar bill
-        VBox menuLayout = new VBox(10);
-
-        return new Scene(menuLayout, 400,600);
     }
 
 
-    private Scene createCekSaldoScene() {
-        // TODO: Implementasikan method ini untuk menampilkan page cetak saldo
-        VBox menuLayout = new VBox(10);
-
-        return new Scene(menuLayout, 400,600);
-    }
-
-    private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, List<String> menuItems) {
-        //TODO: Implementasi validasi isian pesanan
-        try {
-
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void handleBayarBill(String orderID, int pilihanPembayaran) {
-        //TODO: Implementasi validasi pembayaran
-        try {
-
-        } catch (Exception e) {
-
-        }
-    }
-
-        private Scene createCustomerMenu(String location) {
-
+    private Scene createCustomerMenu(String location) {
         try {
             ClassLoader classloader = getClass().getClassLoader();
             URL url = classloader.getResource(location);
